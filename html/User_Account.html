@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account Page</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px 4px 0 0;
+            background-color: #f0f0f0;
+            margin-right: 5px;
+            transition: background 0.3s;
+        }
+        .tab:hover {
+            background-color: #e0e0e0;
+        }
+        .active-tab {
+            background-color: white;
+            border-bottom: 2px solid #e63946;
+        }
+        /* Form and Lists */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .order-history, .wishlist, .address-book {
+            margin-top: 20px;
+        }
+        .order-item, .wishlist-item, .address-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .order-item:last-child, .wishlist-item:last-child, .address-item:last-child {
+            border-bottom: none;
+        }
+        .edit-btn, .remove-btn {
+            color: #e63946;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+        }
+        /* Buttons */
+        .button {
+            padding: 10px 20px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>User Account</h1>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active-tab" onclick="showTab('profile')">Profile Info</div>
+            <div class="tab" onclick="showTab('orders')">Order History</div>
+            <div class="tab" onclick="showTab('wishlist')">Wishlist</div>
+            <div class="tab" onclick="showTab('addresses')">Address Book</div>
+        </div>
+
+        <!-- Profile Info -->
+        <div id="profile" class="tab-content">
+            <h2>Profile Information</h2>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="" readonly>
+            </div>
+            <button class="button">Edit Profile</button>
+        </div>
+
+        <!-- Order History -->
+        <div id="orders" class="tab-content" style="display: none;">
+            <h2>Order History</h2>
+            <div class="order-history">
+                <div class="order-item">
+                    <span>Order #12345</span>
+                    <span>$124.98</span>
+                </div>
+                <div class="order-item">
+                    <span>Order #12346</span>
+                    <span>$79.99</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist -->
+        <div id="wishlist" class="tab-content" style="display: none;">
+            <h2>Wishlist</h2>
+            <div class="wishlist">
+                <div class="wishlist-item">
+                    <span>Elegant Red Dress</span>
+                    <span>$79.99</span>
+                    <button class="remove-btn">Remove</button>
+                </div>
+                <div class="wishlist-item">
+                    <span>Floral Skirt</span>
+                    <span>$39.99</span>
+                    <button class="remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Book -->
+        <div id="addresses" class="tab-content" style="display: none;">
+            <h2>Address Book</h2>
+            <div class="address-book">
+                <div class="address-item">
+                    <p id="address1">123 Main St, Springfield, IL</p>
+                    <button class="edit-btn" onclick="openModal('123 Main, St, Springfield, IL', 'IL', 'Springfield', '62701', '123-456-7890')">Edit</button>
+                </div>
+                <div class="address-item">
+                    <span id="address2">456 Elm St, Springfield, IL</span>
+                    <button class="edit-btn" onclick="openModal('456 Elm St, Springfield, IL', 'IL', 'Springfield', '62701', '098-765-4321')">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Address Editing -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Edit Address</h2>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" value="">
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" value="">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" value="">
+            </div>
+            <div class="form-group">
+                <label for="zipcode">Zip Code:</label>
+                <input type="text" id="zipcode" value="">
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Number:</label>
+                <input type="text" id="contact" value="">
+            </div>
+            <button class="button" onclick="saveAddress()">Save Changes</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('username'); // Retrieve user ID from localStorage
+
+            if (userId) {
+                // User is signed in; fetch their data
+                console.log('User is logged in:', userId);
+                fetchUserData(userId);
+            } else {
+                // Redirect to login page or prompt login if user ID is not available
+                console.log('User is not logged in');
+                // location.href = 'login.html'; // Uncomment if you have a login page
+            }
+        });
+
+        function fetchUserData(userId) {
+            console.log("Fetching data for user ID:", userId);
+
+            fetch(`fetch_user.php?id=${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok.");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        console.error("Error:", data.error);
+                    } else {
+                        document.getElementById('username').value = data.name; // Use "name" as per the PHP response
+                        document.getElementById('email').value = data.email;
+                    }
+                })
+                .catch(err => console.error("Fetch error:", err));
+        }
+
+        function showTab(tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => {
+                tab.style.display = 'none'; // Hide all tabs
+            });
+            document.getElementById(tabName).style.display = 'block'; // Show the selected tab
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active-tab'); // Remove active class from all tabs
+            });
+            document.querySelector(`.tab[onclick="showTab('${tabName}')"]`).classList.add('active-tab'); // Add active class to the clicked tab
+        }
+
+        // Modal Functions
+       function openModal(addressString) {
+const newAddress1 = document.getElementById('address').value;
+ console.log("--------------"+newAddress1);
+    const state1 = document.getElementById('state').value;
+    const city1 = document.getElementById('city').value;
+    const zipcode1 = document.getElementById('zipcode').value;
+    const contact1 = document.getElementById('contact').value;
+
+    // Combine the address details into a single string
+    const combinedAddress1 = `${newAddress1}, ${city1}, ${state1} ${zipcode1},  ${contact1}`;
+    console.log("--------------"+combinedAddress1);
+    // Split the address string using a regex to handle the specified format
+
+    const addressParts = combinedAddress1.split(/,\s*|\s+Contact:\s*/);
+    
+    // Check if we have enough parts
+    if (addressParts.length < 4) {
+        console.error("Address string is not in the expected format:", addressString);
+        alert("The address format is incorrect. Please check and try again.");
+        return; // Exit the function if the format is incorrect
+    }
+    
+    // Extracting values safely with checks
+    const address = addressParts[0] ? addressParts[0].trim() : ""; // First part is the address
+    const city = addressParts[1] ? addressParts[1].trim() : ""; // Second part is the city
+    const stateZip = addressParts[2] ? addressParts[2].trim().split(' ') : []; // Third part is state and zip
+    const state = stateZip[0] ? stateZip[0] : ""; // State is the first element
+    const zipcode = stateZip[1] ? stateZip[1] : ""; // Zipcode is the second element
+    const contact = addressParts[3] ? addressParts[3].trim() : ""; // Fourth part is contact
+
+    // Set current address to the input fields
+    document.getElementById('address').value = address; 
+    document.getElementById('state').value = state; 
+    document.getElementById('city').value = city; 
+    document.getElementById('zipcode').value = zipcode; 
+    document.getElementById('contact').value = contact; 
+    document.getElementById('myModal').style.display = "block"; // Show the modal
+}
+
+
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none"; // Hide the modal
+        }
+
+       function saveAddress() {
+    const newAddress = document.getElementById('address').value;
+    const state = document.getElementById('state').value;
+    const city = document.getElementById('city').value;
+    const zipcode = document.getElementById('zipcode').value;
+    const contact = document.getElementById('contact').value;
+
+    // Combine the address details into a single string
+    const combinedAddress = `${newAddress}, ${city}, ${state} ${zipcode}, Contact: ${contact}`;
+    console.log(combinedAddress);
+
+    // Update the corresponding address item in the address book
+    const addressItemToUpdate = document.getElementById('address1'); // Assuming you are updating address1
+    if (addressItemToUpdate) {
+        addressItemToUpdate.textContent = combinedAddress; // Update the displayed address
+    }
+
+
+    console.log('Saving new address:', combinedAddress);
+    
+    // Make an AJAX request to save the updated address to the database
+    const userId = localStorage.getItem('username'); // Retrieve user ID from localStorage
+   fetch('update_address.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        id: userId,
+        address: combinedAddress
+    }),
+})
+.then(response => {
+    console.log('Response:', response); // Log the raw response
+    return response.json();
+})
+.then(data => {
+    if (data.success) {
+localStorage.setItem('userAdress', data.address);
+console.log(data.address);
+        alert('Address updated successfully!');
+    } else {
+        alert('Failed to update address: ' + data.error);
+    }
+})
+.catch(err => console.error('Error saving address:', err));
+
+
+    // Close the modal after saving
+    closeModal();
+}
+
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
+when we click on save adress the adress value should chnage to combination of name,city,state,zipcode,contact

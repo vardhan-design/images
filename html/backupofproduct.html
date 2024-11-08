@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Navigation Bar */
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    padding: 15px 20px !important;
+    background-color: #ffffff !important;
+    color: #1d1515 !important;
+    position: fixed !important;
+    top: 0!important; /* Ensures navbar is flush to the top */
+    width: 100%;
+    z-index: 20 !important; /* Increase z-index to ensure it stays above dropdowns */
+    border-bottom: 1px solid #ddd;
+}
+.navbar .nav-links {
+    display: flex !important;
+    gap: 40px !important; /* Increased gap for better spacing between links */
+    margin: 0 auto !important; /* Center the nav links */
+}
+
+.navbar .nav-links button {
+    color: #1d1515 ;
+    background: none;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    transition: border-bottom 0.3s ease; /* Added transition for smoother effect */
+}
+
+.navbar .nav-links button:hover {
+    border-bottom: 2px solid #333;
+}
+
+.navbar .nav-icons {
+    display: flex;
+    gap: 10px;
+    margin-right:50px;
+}
+
+.navbar .nav-icons i {
+    color: #1d1515;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.product-details {
+    display: flex;
+    margin: 20px auto;
+    height: 700px;
+    max-width: 70%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-top: 80px; /* Add margin to push the grid down */
+}
+
+        .product-images {
+            display: grid; /* Use CSS Grid for layout */
+            grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
+            gap: 15px; /* Space between images */
+            max-width: 50%; /* Set max width to 50% to split evenly */
+            height: 100%; /* Make images section fill the height of the container */
+            margin-right: 20px; /* Add right margin for space between images and info */
+        }
+
+        .product-images img {
+            width: 100%; /* Set to 100% for better responsiveness */
+            height: auto; /* Preserve aspect ratio */
+            object-fit: cover; /* Ensure the entire image is covered */
+            max-height: 250px; /* Increased max height for larger images */
+        }
+
+        .product-info {
+            flex: 1; /* Allow this section to grow and take up available space */
+            max-width: 50%; /* Set max width to 50% to split evenly */
+            display: flex;
+            flex-direction: column; /* Stack the info vertically */
+            justify-content: flex-start; /* Align items to start */
+            height: 100%; /* Make info section fill the height of the container */
+        }
+
+        .product-name {
+            font-size: 28px; /* Increased font size for prominence */
+            margin: 10px 0;
+        }
+
+        .product-price {
+            font-size: 24px; /* Increased font size */
+            color: green;
+            margin-bottom: 10px; /* Space below price */
+        }
+
+        .product-review {
+            margin: 10px 0;
+        }
+
+        .product-description {
+            margin: 10px 0;
+            line-height: 1.5; /* Increased line height for readability */
+        }
+
+        .product-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+
+        .add-to-cart, .buy-now {
+            background-color: rgba(128, 116, 176, 0.925);
+            color: white;
+            border: none;
+            padding: 12px 20px; /* Increased padding for buttons */
+            cursor: pointer;
+            flex-grow: 1; /* Allow buttons to grow equally */
+        }
+
+        .buy-now {
+            background-color: rgb(124, 160, 124); /* Different color for buy now button */
+        }
+
+        .product-details-footer button {
+            margin-right: 10px;
+        }
+
+        .product-description-reviews {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px auto; /* Center this section */
+            max-width: 800px; /* Match max width */
+        }
+
+        .left-description, .right-reviews {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .related-info, .related-products {
+            margin: 20px auto; /* Center related info */
+            max-width: 800px; /* Match max width */
+        }
+
+        .product-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .product-description-reviews {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px auto;
+            max-width: 1500px;
+        }
+        .left-description, .right-reviews {
+            flex: 1;
+            margin: 0 10px;
+            display: none; /* Hide by default */
+            max-height: 300px; /* Set a maximum height */
+            width:5000px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding: 10px; /* Add padding for better readability */
+            border: 1px solid #ddd; /* Optional border for clarity */
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .active-section {
+            display: block; /* Only show the active section */
+        }
+        
+        /* Style for clickable text */
+        .toggle-texts {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .toggle-texts span {
+            cursor: pointer;
+            font-size: 22px; /* Increased font size */
+            font-weight: bold; /* Bold text */
+            color: #333;
+            margin: 0 15px;
+            transition: color 0.3s ease; /* Smooth transition for color change */
+            text-decoration: none; /* Remove underline */
+        }
+        .toggle-texts .active-text {
+            color: rgb(0, 0, 0); /* Different color for active text */
+        }
+        .toggle-texts .grayed-out {
+            color: #fcf7f7; /* Grayed out color for inactive text */
+        }
+        .review-summary {
+            text-align: center;
+            margin-bottom: 20px;
+            
+        }
+        .reviewsofuser
+        {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .average-rating {
+            font-size: 24px;
+            font-weight: bold;
+            color: green;
+        }
+        
+        .rating-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 300px;
+            
+            margin: 0 auto;
+            left:0px;
+        }
+        .reviewandbutn
+        {
+            flex-direction: column;
+        }
+        .rating-bar-container {
+            display: flex;
+            align-items: center;
+        }
+        .rating-label {
+            width: 50px;
+            font-weight: bold;
+        }
+        .rating-bar {
+            flex: 1;
+            background-color: #ddd;
+            height: 10px;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        .rating-bar-fill {
+            background-color: green;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: 5px;
+        }
+        .rating-percentage {
+            width: 40px;
+            text-align: right;
+        }
+        /* Popup Container */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+/* Popup Content */
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Star Rating */
+.star-rating {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.star-rating .star:hover,
+.star-rating .star.active {
+    color: gold;
+}
+
+/* Review Textarea */
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    resize: vertical;
+}
+
+/* Submit Button */
+button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: rgb(112, 171, 112);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: rgb(206, 217, 206);
+}
+.quantity-selector {
+    display: inline-flex;
+    align-items: center;
+    right: 10px;
+}
+
+.quantity-decrement, .quantity-increment {
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#quantity-display {
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+}
+#stock-indicator {
+    font-size: 14px;
+    color: #d32f2f;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Stock Bar Container */
+.stock-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+/* Stock Bar */
+.stock-bar {
+    height: 100%;
+    width: 0; /* Start with 0 width */
+    background-color: #d32f2f; /* Red color for low stock */
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+      <!-- Navigation Bar -->
+      <div class="navbar">
+        <div class="nav-links">
+            <button onclick="window.location.href='home2.html'">Home</button>
+            <button onclick="window.location.href='product_Detail.html?category=Dresses'"; >Shop</button>
+             <button onclick="window.location.href='about_us.html'";>About Us</button>
+            <button onclick="window.location.href='contact_us.html'"; >Contact Us</button>
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative; display: inline-block;">
+        <i class="fas fa-shopping-cart" onclick="window.location.href='shopping_cart.html?type=cart'"; ></i>
+        <span id="cart-notify" class="notification-badge">0</span>
+    </div>
+
+    <!-- Wishlist Icon with Notification Badge -->
+    <div style="position: relative; display: inline-block;">
+        <i class="fas fa-heart" onclick="window.location.href='shopping_cart.html?type=wishlist'"></i>
+        <span id="wishlist-notify" class="notification-badge">0</span>
+    </div>
+            <i class="fas fa-search" onclick="loadContent('search.html'); return false;"></i>
+            <i class="fas fa-sync-alt" onclick="refreshPage(); return false;"></i>
+        </div>
+    </div>
+    <!-- Authentication Popup -->  <div class="product-details" id="product-list-container">
+        <div class="product-images">
+            <img src="image1.jpg" alt="Product Image" class="main-image"> <!-- Main Image -->
+            <img src="image2.jpg" alt="Thumbnail 1" class="thumbnail"> <!-- Thumbnail 1 -->
+            <img src="image3.jpg" alt="Thumbnail 2" class="thumbnail"> <!-- Thumbnail 2 -->
+            <img src="image4.jpg" alt="Thumbnail 3" class="thumbnail"> <!-- Thumbnail 3 -->
+        </div>
+        <div class="product-info">
+            <!-- Product details such as name, price, etc. -->
+            <h1 class="product-name">Product Name</h1>
+            <p class="product-price">$99.99</p>
+        
+            <div class="product-review">
+                <span>★★★★☆ (120 Reviews)</span>
+            </div>
+            <p class="product-description">This is a great product you will love to use. It comes with amazing features and benefits.</p>
+        
+            <!-- Quantity Selector and Action Buttons -->
+            <div class="product-actions">
+                
+                <button class="add-to-cart" onclick="addToCart()">Add to Cart</button>
+                <button class="buy-now" onclick="buyNow()">Buy Now</button>
+            </div>
+        
+            <!-- Footer Section -->
+            <div class="product-details-footer">
+                <button>Size Details</button>
+                <button>Delivery Info</button>
+                <button>Ask a Question</button>
+            </div>
+        </div>
+        
+    </div>
+    <div class="toggle-texts">
+        <span onclick="showSection('description')" class="active-text" id="description-toggle">Description</span>
+        <span onclick="showSection('reviews')" id="reviews-toggle">Reviews</span>
+    </div>
+    <div class="product-description-reviews">
+        <div id="description-section" class="left-description active-section">
+            <h2>Description</h2>
+            <p>This section contains additional details about the product.</p>
+        </div>
+        <div id="reviews-section" class="right-reviews">
+            <h2>Reviews</h2>
+
+            <div class="review-summary">
+                <div class="average-rating"><span id="average-rating">4.3</span></div>
+                <div ><span id="average-star-rating"></span></div>
+            </div>
+            <div class="reviewandbutn">
+            <div class="rating-bars">
+                
+             
+                <div class="rating-bar-container">
+                    <span class="rating-label">5 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-bar-fill" id="rating-5-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="rating-percentage" id="rating-5-percent"></span>
+                </div>
+                <div class="rating-bar-container">
+                    <span class="rating-label">4 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-bar-fill" id="rating-4-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="rating-percentage" id="rating-4-percent"></span>
+                </div>
+                <div class="rating-bar-container">
+                    <span class="rating-label">3 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-bar-fill" id="rating-3-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="rating-percentage" id="rating-3-percent"></span>
+                </div>
+                <div class="rating-bar-container">
+                    <span class="rating-label">2 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-bar-fill" id="rating-2-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="rating-percentage" id="rating-2-percent"></span>
+                </div>
+                <div class="rating-bar-container">
+                    <span class="rating-label">1 ★</span>
+                    <div class="rating-bar">
+                        <div class="rating-bar-fill" id="rating-1-fill" style="width: 0%;"></div>
+                    </div>
+                    <span class="rating-percentage" id="rating-1-percent"></span>
+                </div>
+                
+            </div>
+            <button onclick="openReviewPopup()" class="write-review-btn">Write a Review</button>
+            </div>
+            
+            
+            <p id="reviews" clss="reviewsofuser">User reviews and ratings go here.</p>
+        </div>
+    </div>
+    <div class="related-info">
+        <h2>Related Information</h2>
+        <p>Details about the selected related information will be displayed here.</p>
+    </div>
+    <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="product-card">Product 1</div>
+        <div class="product-card">Product 2</div>
+        <div class="product-card">Product 3</div>
+    </div>
+    <div id="review-popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeReviewPopup()">&times;</span>
+            <h2>Submit Your Review</h2>
+            
+            <!-- Star rating -->
+            <div id="star-rating" class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            
+            <p>Rate the product:</p>
+            
+            <!-- Review Text Box -->
+            <textarea id="review-text" placeholder="Write your review here..." rows="5"></textarea>
+    
+            <!-- Submit Button -->
+            <button onclick="submitReview()">Submit</button>
+        </div>
+    </div>
+    
+    <script>
+ const urlParams = new URLSearchParams(window.location.search);
+ const productId = urlParams.get('id');
+ let currentQuantity = 1;
+let maxStock ; // Total items available in stock
+let availableStock = maxStock; // Initialize with max stock
+let quantity = 1;
+let product_quantity=0;
+        document.addEventListener("DOMContentLoaded", function() {
+           
+
+            fetch('fetchsingleproduct.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    //const firstProduct = data.product;
+                    console.log(data.products);
+                    renderProductDetails(data.products[0]);
+                    addreviews(data.products[2]); // Pass the first product object
+                } else {
+                    console.error('Error fetching product details:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching product details:', error);
+            });
+        });
+
+        function renderProductDetails(product) {
+            const productListContainer = document.getElementById('product-list-container');
+            
+            const stars=convertRatingToStars(product.rating);
+            product_quantity=product.quantity;
+            
+            // Check if the container exists
+            if (!productListContainer) {
+                console.error("Product list container not found!");
+                return; // Exit the function if the container is not found
+            }
+            
+            // Clear previous content
+            const productInfo = productListContainer.querySelector('.product-info');
+            const productImages = productListContainer.querySelector('.product-images');
+
+            // Update product images
+            productImages.innerHTML = `
+                <img src="${product.image_url}" alt="${product.name}" class="main-image">
+                <img src="${product.image2}" alt="Thumbnail 1" class="thumbnail">
+                <img src="${product.image3}" alt="Thumbnail 2" class="thumbnail">
+                <img src="${product.image4}" alt="Thumbnail 3" class="thumbnail">
+            `;
+            
+            // Update product info
+            productInfo.innerHTML = `
+                <h1 class="product-name">${product.name}</h1>
+                <p class="product-price">$${product.price}</p>
+                <div class="product-review">
+                    <span>${stars}</span>
+                </div>
+                <p class="product-description">${product.description}</p>
+                
+
+                <div id="stock-indicator" class="stock-indicator">Fetching stock...</div>
+                <div class="stock-bar-container">
+                <div id="stock-bar" class="stock-bar"></div>
+                </div>
+                <div class="product-actions">
+                    
+                    <div class="quantity-selector">
+                    <button class="quantity-decrement" onclick="changeQuantity(-1)">-</button>
+                    <span id="quantity-display">1</span>
+                     <button class="quantity-increment" onclick="changeQuantity(1)">+</button>
+                    </div>
+                
+                    <button class="add-to-cart"onclick="updateCartQuantity(${product.product_id})">Add to Cart</button>
+                    <button class="buy-now"onclick="buyNow(${product.product_id})">Buy Now</button>
+                </div>
+                <div class="customer-reviews">
+                    <h4>Customer Reviews</h4>
+                    <p>${product.customer_reviews}</p>
+                </div>
+                <div class="size-guide">
+                    <h4>Size Guide</h4>
+                    <a href="${product.size_guide}" target="_blank">View Size Guide</a>
+                </div>
+            `;
+        }
+        function buyNow(productId) {
+            updateCartQuantity(productId);
+
+    window.location.href = `checkoutnew.html?id=${productId}`;
+}
+function addToCart(icon,message,count) {
+    updateCartQuantity(productId);
+        console.log(message);
+        if(message==='added to wishlist'){
+            console.log(message);
+        icon.classList.add("cart-filled");
+    }else{
+        //wishlistCount--;
+        deletefromcart(productId);
+        
+        console.log(message);
+        icon.classList.remove("cart-filled");
+      
+    }
+}
+
+function changeQuantity(amount) {
+    quantity += amount;
+    if (quantity < 1) quantity = 1; // Ensure quantity doesn't go below 1
+    document.getElementById('quantity-display').textContent = quantity;
+}
+function addreviews(product)
+{
+    let reviewContainer=document.getElementById('reviews');
+    reviewContainer.innerHTML = `<h4>Customer Reviews</h4>`;
+    if (product.reviews && product.reviews.length > 0) {
+        product.reviews.forEach(review => {
+            const reviewStars = convertRatingToStars(review.rating);
+            reviewContainer.innerHTML += `
+                <div class="review">
+                    <div class="review-rating">${reviewStars}</div>
+                    <p class="review-text">${review.review_text}</p>
+                </div>
+            `;
+        });
+    } else {
+        reviewContainer.innerHTML += `<p>No reviews yet.</p>`;
+    }
+}
+function convertRatingToStars(rating) {
+            rating = Math.max(1, Math.min(5, rating)); // Ensure rating is between 1 and 5
+            let stars = '';
+            for (let i = 0; i < rating; i++) {
+                stars += '⭐'; // Append star symbol for each rating point
+            }
+            return stars;
+        }
+        function showSection(section) {
+            const descriptionToggle = document.getElementById('description-toggle');
+            const reviewsToggle = document.getElementById('reviews-toggle');
+            const descriptionSection = document.getElementById('description-section');
+            const reviewsSection = document.getElementById('reviews-section');
+
+            if (section === 'description') {
+                descriptionSection.classList.add('active-section');
+                reviewsSection.classList.remove('active-section');
+                descriptionToggle.classList.add('active-text');
+                reviewsToggle.classList.remove('active-text');
+            } else if (section === 'reviews') {
+                reviewsSection.classList.add('active-section');
+                descriptionSection.classList.remove('active-section');
+                reviewsToggle.classList.add('active-text');
+                descriptionToggle.classList.remove('active-text');
+            }
+        }
+        const ratingsData = [5, 4, 5, 3, 5, 2, 4, 4, 5, 1, 4, 3]; // Replace with actual ratings data
+
+    function calculateAverageAndDistribution(ratings) {
+        const totalRatings = ratings.length;
+        const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        let sum = 0;
+
+        ratings.forEach(rating => {
+            distribution[rating]++;
+            sum += rating;
+        });
+
+        const averageRating = (sum / totalRatings).toFixed(1); // Calculate average rating
+
+        // Calculate percentage for each rating
+        const distributionPercentages = {};
+        for (let i = 1; i <= 5; i++) {
+            distributionPercentages[i] = ((distribution[i] / totalRatings) * 100).toFixed(1);
+        }
+
+        return { averageRating, distributionPercentages,distribution };
+    }
+
+    function updateReviewSummary(ratings) {
+        const { averageRating, distributionPercentages,distribution } = calculateAverageAndDistribution(ratings);
+        convertRatingToStars(averageRating);
+         document.getElementById("average-star-rating").innerText=convertRatingToStars(averageRating);
+
+        document.getElementById("average-rating").innerText = averageRating;
+
+        // Update each rating bar fill and percentage
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`rating-${i}-fill`).style.width = `${distributionPercentages[i]}%`;
+            document.getElementById(`rating-${i}-percent`).innerText = `${distribution[i]}`;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        updateReviewSummary(ratingsData);
+    });
+    let selectedRating = 0;
+
+function openReviewPopup() {
+    // Show the review popup
+    document.getElementById('review-popup').style.display = 'flex';
+}
+
+function closeReviewPopup() {
+    // Close the review popup
+    document.getElementById('review-popup').style.display = 'none';
+}
+
+// Star rating functionality
+const stars = document.querySelectorAll('.star-rating .star');
+stars.forEach(star => {
+    star.addEventListener('click', function() {
+        selectedRating = parseInt(star.getAttribute('data-value'));
+        updateStarRating();
+    });
+});
+
+// Update star colors based on selection
+function updateStarRating() {
+    stars.forEach(star => {
+        if (parseInt(star.getAttribute('data-value')) <= selectedRating) {
+            star.classList.add('active');
+        } else {
+            star.classList.remove('active');
+        }
+    });
+}
+
+// Submit review functionality
+function submitReview() {
+    const reviewText = document.getElementById("review-text").value.trim();
+
+    if (selectedRating === 0) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    if (!reviewText) {
+        alert("Please write a review.");
+        return;
+    }
+
+    const reviewData = {
+        product_id: productId,  // Get the product_id dynamically (could be from a URL or page variable)
+        rating: selectedRating,  // The rating selected by the user
+        review_text: reviewText   // The review text entered by the user
+    };
+
+    // Send review data to backend via AJAX (using Fetch API)
+    fetch('submit_review.php', {  // Adjust this URL to match your backend API or script
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reviewData)  // Send the data in JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Review submitted successfully!');
+            closeReviewPopup();
+            updateReviewSection(data.updatedReviews);  // Optionally update reviews dynamically
+        } else {
+            alert('There was an error submitting your review.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting the review.');
+    });
+}
+
+
+
+// Function to fetch product quantity (e.g., via an AJAX call or similar)
+async function fetchProductQuantity() {
+    // Simulating a fetch call. Replace this with actual AJAX/fetch logic
+    // to retrieve `product_quantity` from your server.
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(50); // Replace 50 with the fetched stock value
+        }, 500); // Simulated delay
+    });
+}
+
+function updateStockDisplay() {
+    if (!maxStock) return; // Ensure maxStock is defined before updating
+
+    // Calculate the width of the bar based on remaining stock after selection
+    const availableStock = product_quantity - currentQuantity;
+    const stockPercentage = (availableStock / maxStock) * 100;
+
+    // Update the stock bar width based on calculated percentage
+    document.getElementById("stock-bar").style.width = stockPercentage + "%";
+    
+    // Update the text to show remaining stock after current selection
+    document.getElementById("stock-indicator").textContent = `${availableStock} items left in stock`;
+}
+
+async function changeQuantity(change) {
+    // Update current quantity within the limit of available stock
+    const newQuantity = currentQuantity + change;
+    if (newQuantity >= 1 && newQuantity <= maxStock) {
+        currentQuantity = newQuantity;
+        document.getElementById("quantity-display").textContent = currentQuantity;
+
+        // Update stock display to reflect the new selection
+        updateStockDisplay();
+    }
+}
+
+// Initialize stock bar and fetch available stock on page load
+document.addEventListener("DOMContentLoaded", async function() {
+    maxStock = await fetchProductQuantity(); // Fetch product quantity
+    updateStockDisplay(); // Initial call to set the stock bar and indicator text
+});
+function updateCartQuantity(productId) {
+    let qntity=document.getElementById("quantity-display").innerText;
+    fetch('UpdateCartAndQuantity.php', {  // PHP script to update cart
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `product_id=${productId}&quantity=${qntity}&user_id=${localStorage.getItem('username')},`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Optionally update the cart on the page
+            alert('Cart updated successfully');
+            loadCart(); // Reload cart data to reflect the changes
+        } else {
+            alert('Failed to update cart');
+        }
+    });
+}
+function deletefromcart(productId)
+{
+    fetch('DeletefromCart.php', {  // PHP script to update cart
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `product_id=${productId}&user_id=${localStorage.getItem('username')},`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Optionally update the cart on the page
+            alert('Removed from successfully');
+            loadCart(); // Reload cart data to reflect the changes
+        } else {
+            alert('Failed to update cart');
+        }
+    });
+}
+
+
+
+
+
+    </script>
+   
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+
+    <!-- Admin Navigation Bar -->
+    <div class="admin-navbar">
+        <button onclick="window.location.href='admin_dashboard.html'">Dashboard</button>
+        <button onclick="window.location.href='manage_products.html'">Manage Products</button>
+        <button onclick="window.location.href='manage_users.html'">Manage Users</button>
+        <button onclick="window.location.href='view_orders.html'">View Orders</button>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <h1>Manage Products</h1>
+
+    <form id="product-form" onsubmit="addProduct(event)">
+        <label for="product-name">Product Name:</label>
+        <input type="text" id="product-name" required>
+        
+        <label for="product-price">Price:</label>
+        <input type="number" id="product-price" required>
+
+        <label for="product-quantity">Quantity:</label>
+        <input type="number" id="product-quantity" required>
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    <div id="product-list">
+        <!-- List of products will be displayed here -->
+    </div>
+
+    <script src="manage_products.js"></script> <!-- JavaScript for managing products -->
+</body>
+</html>

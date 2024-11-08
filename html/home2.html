@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Fashion Store</title>
+    <style>
+
+    </style>
+    <link rel="stylesheet" href="homepage.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+    <div class="top-bar">
+        <a href="#" id="login-link" onclick="openAuthPopup(); return false;"><i class="fas fa-sign-in-alt"></i> Login</a>
+        
+        <i  id= "profile-link" class="fas fa-user-circle" onclick="openProfilePopup();" style="font-size: 24px; margin-left: 20px; cursor: pointer;"></i> <!-- Profile Logo -->
+    </div>
+    
+    
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <button onclick="window.location.href='home2.html'">Home</button>
+            <button onclick="window.location.href='product_Detail.html?category=Dresses'"; >Shop</button>
+             <button onclick="window.location.href='about_us.html'";>About Us</button>
+            <button onclick="window.location.href='contact_us.html'"; >Contact Us</button>
+        
+            <button onclick="window.location.href='admin_dashboad.html'">admin</button>
+                
+            
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative; display: inline-block;">
+        <i class="fas fa-shopping-cart" onclick="window.location.href='shopping_cart.html?type=cart'"; ></i>
+        <span id="cart-notify" class="notification-badge">0</span>
+    </div>
+
+    <!-- Wishlist Icon with Notification Badge -->
+    <div style="position: relative; display: inline-block;">
+        <i class="fas fa-heart" onclick="window.location.href='shopping_cart.html?type=wishlist'"></i>
+        <span id="wishlist-notify" class="notification-badge">0</span>
+    </div>
+            <i class="fas fa-search" onclick="loadContent('search.html'); return false;"></i>
+            <i class="fas fa-sync-alt" onclick="refreshPage(); return false;"></i>
+        </div>
+    </div>
+    <!-- Authentication Popup -->
+<div id="auth-popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 id="popup-title">Log In</h2>
+        <form id="auth-form" onsubmit="handleAuth(event)">
+            <label for="auth-username" id="loginlabel">Email/Mobile Number:</label>
+                <input type="text" id="auth-username" name="username" required placeholder="Enter your email or mobile number">
+            <div id="auth-login-passwordLabel">
+            <label for="auth-login-password" >Password:</label>
+            <input type="password" id="auth-login-password" name="login-password" required> <!-- Corrected ID -->
+            </div>
+
+            <div id="signup-fields" style="display: none;">
+                <label for="auth-username">Mobile Number:</label>
+                <input type="text" id="auth-signup-username" name="mobilenumber">
+            
+                <label for="auth-name">Name:</label>
+                <input type="text" id="auth-name" name="name" required>
+
+                <label for="auth-email">Email:</label>
+                <input type="email" id= "auth-email"style="width:100%; padding:10px; margin:5px 0 20px; border:1px solid #ccc; border-radius:4px;">
+
+
+                <label for="auth-signup-password">Password:</label>
+                <input type="password" id="auth-signup-password" name="signup-password">
+            </div>
+
+            <button type="submit" id="auth-button">Log In</button>
+        </form>
+        <button id="forgot-button" onclick="showForgotPassword()">Forgot Password?</button>
+        <button id="switch-to-signup" onclick="switchToSignup()">Don't have an account? Sign Up</button>
+    </div>
+</div>
+<div id="profile-popup" class="profile-popup">
+    <div class="profile-popup-content">
+        <span class="close" onclick="closeProfilePopup()">&times;</span>
+        <img id="profile-avatar" src="https://via.placeholder.com/100" alt="Profile Avatar" class="avatar">
+        <h2>User Profile</h2>
+        <p><strong>Username:</strong> <span id="profile-username">JohnDoe</span></p>
+        <p><strong>Email:</strong> <span id="profile-email">johndoe@example.com</span></p>
+        <p><strong>Contact:</strong> <span id="profile-contact">johndoe@example.com</span></p>
+        <p><strong>Address:</strong> <span id="profile-Adress">johndoe@example.com</span></p>
+        <button class="button" onclick="openModal()" id="editprofile">Edit Profile</button>
+        <button onclick="closeProfilePopup()">Close</button>
+        <button onclick="Signout()" id ="signout">SignOut</button>
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Edit Address</h2>
+        <div class="form-group">
+            <label for="address">Username:</label>
+            <input type="text" id="name" value="">
+        </div>
+        <div class="form-group">
+            <label for="state">Email:</label>
+            <input type="text" id="email" value="">
+        </div>
+        <div class="form-group">
+            <label for="city">Contact:</label>
+            <input type="text" id="contact" value="">
+        </div>
+        <div class="form-group">
+            <label for="zipcode">Address:</label>
+            <input type="text" id="adress" value="">
+        </div>
+        <input type="file" id="imageInput" accept="image*">
+        
+    <img id="imagePreview" src="" alt="Image Preview" style="display:none; max-width: 100px; margin-top: 10px;">
+        <button class="button" onclick="saveAddress()">Save Changes</button>
+    </div>
+</div>
+
+
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div>
+            <h2>Discover the Latest Trends</h2>
+            <p>Exclusive collections, offers, and sales!</p>
+        </div>
+    </section>
+
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="category-card" onclick="window.location.href='product_Detail.html?category=Dresses'">
+            <img src="https://via.placeholder.com/100" alt="Dresses">
+            <p>Dresses</p>
+        </div>
+        <div class="category-card" onclick="window.location.href='product_Detail.html?category=Tops'">
+            <img src="https://via.placeholder.com/100" alt="Tops">
+            <p>Tops</p>
+        </div>
+        <div class="category-card" onclick="window.location.href='products_details.html?category=Bottoms'">
+            <img src="https://via.placeholder.com/100" alt="Bottoms">
+            <p>Bottoms</p>
+        </div>
+        <div class="category-card" onclick="window.location.href='products_details.html?category=Accessories'">
+            <img src="https://via.placeholder.com/100" alt="Accessories">
+            <p>Accessories</p>
+        </div>
+    </section>
+    <section class="ladies-section">
+        <div class="lady-photo">
+            <img src="fashion-1-women - Copy.jpg" alt width="500" height="500">
+        </div>
+        <div class="related-products">
+            <h3>Related Products</h3>
+            <div id="product-grid1" class="product-grid"></div>
+        </div>
+    </section>
+
+    
+<div style="display: flex; flex: 2;">
+    <div style="flex: 1; padding: 5px; position: relative;"> <!-- Set position relative here -->
+        <img src="h2-banner21.jpg" alt="Product Image 1" style="width: 100%; height: auto;" class="image1">
+        <div style="position: absolute; bottom: 100px; left: 190px; color: black;  padding: 5px; border-radius: 5px;">
+            <h2 style="margin: 0;">Big Sale</h2>
+            <h1 style="color: #999; margin: 0;">50 % OFF</h1>
+        </div>
+    </div>
+    <div style="flex: 1; padding: 5px; position: relative;"> <!-- Set position relative here -->
+        <img src="watches_light_slider1-1.jpeg" alt="Product Image 2" style="width: 100%; height: auto;" class="image1">
+        <div style="position: absolute; bottom: 100px; left: 500px; color: black;  padding: 5px; border-radius: 5px;">
+            <h3 style="margin: 0;">Sports Watch</h5>
+            <h4 style="color: #999; right:20px;">Bags &amp; Accessories</h6>
+        </div>
+    </div>
+</div>
+
+
+<section class="ladies-section">
+  
+    <div class="related-products">
+        <h3>Related Products</h3>
+        <div id="product-grid2" class="product-grid"></div>
+    </div>
+    <div class="Boy-photo" style="flex: 1; text-align: center;">
+        <img src="fashion-1-men - Copy.jpg" alt="Lady" style="width: 80%; right:0px; border-radius: 8px;">
+    </div>
+   
+</section>   
+    
+   
+     
+   
+    <!-- Newsletter Signup -->
+    <section class="newsletter">
+        <h4>Subscribe to Our Newsletter</h4>
+        <p>Stay updated with the latest fashion trends and exclusive offers.</p>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+    </section>
+    <script src="login_form.js"></script>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Stories</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Customer Stories Section */
+        .customer-stories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .story {
+            background-color: #f0f8ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            width: calc(33% - 20px); /* 3 stories in a row with spacing */
+            transition: transform 0.3s;
+        }
+        .story:hover {
+            transform: scale(1.02); /* Slight zoom effect on hover */
+        }
+        .story img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .story h3 {
+            margin-bottom: 10px;
+            color: #e63946; /* Brand color */
+        }
+        .story p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .customer-name {
+            font-weight: bold;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Customer Stories</h1>
+
+        <div class="customer-stories">
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 1">
+                <h3>Emily Johnson</h3>
+                <p>"I absolutely love the dress I purchased! It fits perfectly and the quality is amazing. I received so many compliments at the event!"</p>
+                <div class="customer-name">- Emily J.</div>
+            </div>
+
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 2">
+                <h3>Sarah Smith</h3>
+                <p>"The customer service was outstanding! I had a query about my order, and they responded promptly and helped me every step of the way!"</p>
+                <div class="customer-name">- Sarah S.</div>
+            </div>
+
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 3">
+                <h3>Jessica Lee</h3>
+                <p>"I ordered a pair of shoes, and they are not only stylish but also incredibly comfortable. I can wear them all day without any discomfort!"</p>
+                <div class="customer-name">- Jessica L.</div>
+            </div>
+
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 4">
+                <h3>Laura Green</h3>
+                <p>"The quality of the products is exceptional! I appreciate the attention to detail and the unique designs. I’ll definitely be back for more!"</p>
+                <div class="customer-name">- Laura G.</div>
+            </div>
+
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 5">
+                <h3>Megan Brown</h3>
+                <p>"Shopping here is always a great experience! The website is easy to navigate, and I love how quickly my orders arrive!"</p>
+                <div class="customer-name">- Megan B.</div>
+            </div>
+
+            <div class="story">
+                <img src="https://via.placeholder.com/100" alt="Customer 6">
+                <h3>Kate Wilson</h3>
+                <p>"I found the perfect outfit for my wedding! It was so easy to find exactly what I was looking for, and the quality was top-notch!"</p>
+                <div class="customer-name">- Kate W.</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: gray; /* Default color for navbar items */
+            font-size: 16px;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: inherit; /* Inherit color from parent */
+            margin-right: 10px; /* Space between items */
+        }
+        .navbar a:hover {
+            color: black; /* Change color on hover */
+        }
+        .navbar .separator {
+            margin: 0 5px; /* Space around separator */
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .form-section h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: calc(100% - 10px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .address-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 2px;
+            margin-left: 10px;
+        }
+        .address-section .address-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .address-section .address-group:last-child {
+            margin-right: 0;
+        }
+        .product-summary {
+            width: 500px; /* Fixed width for product summary */
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            margin-left: 200px;
+        }
+        .product-summary h2 {
+            margin-top: 0;
+        }
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .button.return {
+            background-color: #6c757d; /* Gray for return */
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        .section {
+            display: none; /* Hide all sections by default */
+        }
+        .section.active {
+            display: block; /* Show active section */
+        }
+        /* Styles for shipping table */
+        .shipping-table {
+            width: 100%;
+            border-collapse: collapse; /* Remove inner borders */
+            margin-bottom: 20px; /* Space below the table */
+        }
+        .shipping-table th, .shipping-table td {
+            border: 1px solid #ccc; /* Outer border */
+            padding: 10px;
+            text-align: left;
+        }
+        .change-button {
+            background: none;
+            border: none;
+            color: #007BFF;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .product-info {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 10px;
+    height:20px;
+    object-fit: fill;
+}
+.product-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.product-info .price {
+    color: #e63946;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.product-images {
+    height: 100px; /* Set container height to 30px */
+    width: auto; /* Adjust width automatically to maintain aspect ratio */
+}
+
+.product-images img {
+    height: 100%; /* Make images fill the container's height */
+    width: auto; /* Keep aspect ratio by adjusting width */
+    object-fit: contain; /* Scale image without cropping */
+}
+.button.place-order {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .button.place-order:hover {
+            opacity: 0.9;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#" id="info-tab">Information</a>
+        <span class="separator">></span>
+        <a href="#" id="shipping-tab">Shipping</a>
+        <span class="separator">></span>
+        <a href="#" id="payment-tab" onclick="payment()">Payment</a>
+    </div>
+
+    <div class="container">
+        <div class="section active" id="info-section">
+            <h2>Contact Information</h2>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="address-section">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" placeholder="First Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" placeholder="Last Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" placeholder="Country" required>
+            </div>
+            <div class="form-group">
+                <label for="street-address">Street Address</label>
+                <input type="text" id="street-address" placeholder="Street Address" required>
+            </div>
+            <div class="form-group">
+                <label for="apartment">Apartment, suite, etc.</label>
+                <input type="text" id="apartment" placeholder="Apartment, suite, etc.">
+            </div>
+            <div class="address-section">
+                <div class="form-group">
+                    <label for="town">Town</label>
+                    <input type="text" id="town" placeholder="Town">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" placeholder="State">
+                </div>
+                <div class="form-group">
+                    <label for="pincode">Pincode</label>
+                    <input type="text" id="pincode" placeholder="Pincode">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="Phone Number" required>
+            </div>
+        </div>
+        
+        <div class="section" id="shipping-section">
+            <h2>Shipping Address</h2>
+            <div class="form-group">
+                <label for="contact-input">Contact</label>
+                <input type="text" id="contact-input" placeholder="Contact" required>
+            </div>
+            <div class="form-group">
+                <label for="shipping-input">Ship To</label>
+                <input type="text" id="shipping-input" placeholder="Shipping To" required>
+            </div>
+            <div class="form-group">
+                <label for="method-input">Method</label>
+                <input type="text" id="method-input" placeholder="Method" required>
+            </div>
+            <div class="form-group">
+                <label for="shipping-method">Shipping Method</label>
+                <input type="text" id="shipping-method" placeholder="Shipping Method" required>
+            </div>
+            <div class="form-group">
+                <label for="order-notes">Order Notes (optional)</label>
+                <textarea id="order-notes" rows="3" placeholder="Any special instructions..."></textarea>
+            </div>
+        </div>
+
+
+        <div class="section" id="payment-section">
+            <h2>Payment Information</h2>
+            <div class="form-group">
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="Card Number" required>
+            </div>
+            <div class="form-group">
+                <label for="expiry-date">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" required>
+            </div>
+            <div class="form-group">
+                <label for="cvc">CVC</label>
+                <input type="text" id="cvc" placeholder="CVC" required>
+            </div>
+
+            <div class="button-container">
+                <button class="button place-order" id="place-order-button" onclick="sendOrderConfirmation()">Place Order</button>
+            </div>
+        </div>
+        
+
+        <div class="product-summary">
+            <div id="product-list"></div>
+            <h2>Order Summary</h2>
+            <div class="product-item">
+                <span>subtotal</span>
+                <span id ="subtotal">$49.99</span>
+            </div>
+            <div class="product-item">
+                <span>shipping</span>
+                <span id="shipping">$29.99</span>
+            </div>
+            <div class="product-item">
+                <span>Total </span>
+                <span id="total">$19.99</span>
+            </div>
+            
+        </div>
+    </div>
+    
+</div>
+    
+     <!-- Summary Section -->
+     <div class="button-container">
+        <button class="button" id="continue-button">Continue to Payment</button>
+        <button class="button return" id="return-button">Return to Cart</button>
+    </div>
+
+    
+
+    <script>
+
+
+    function sendOrderConfirmation(event) {
+    // Prevent the default form submission
+    //event.preventDefault();
+
+    // Collect product details
+    const productList = document.querySelectorAll('#product-list .product-item');
+    const products = Array.from(productList).map(product => {
+        const nameElement = product.querySelector('.product-name');
+        const priceElement = product.querySelector('.price');
+        const imageElement = product.querySelector('img');
+
+        // Check if each element exists before accessing its properties
+        return {
+            name: nameElement ? nameElement.textContent : "N/A",
+            price: priceElement ? priceElement.textContent : "$0.00",
+            image: imageElement ? imageElement.src : ""
+        };
+    });
+
+    // Get summary values with checks
+    const subtotalElement = document.getElementById('subtotal');
+    const shippingElement = document.getElementById('shipping');
+    const totalElement = document.getElementById('total');
+
+    const subtotal = subtotalElement ? subtotalElement.textContent : "$0.00";
+    const shipping = shippingElement ? shippingElement.textContent : "$0.00";
+    const total = totalElement ? totalElement.textContent : "$0.00";
+
+    // Send the data to PHP
+    fetch('sendmail.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            products: products,
+            subtotal: subtotal,
+            shipping: shipping,
+            total: total
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log(data.message); // Successfully sent email
+            alert("Order confirmation email sent!");
+        } else {
+            console.error(data.message); // Error sending email
+            alert("Failed to send order confirmation email.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+ 
+    
+
+
+
+         function payment(){
+            // Hide the "Continue to Payment" and "Return to Cart" buttons in the payment section
+            document.getElementById('continue-button').style.display = 'none';
+            document.getElementById('return-button').style.display = 'none';
+         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = localStorage.getItem('username'); // Assuming user ID is stored as 'username'
+            const productIds = []; // Array to hold product IDs
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Get the category from the URL
+            const type = getQueryParam('productId');
+
+            fetchCartItems(userId);
+
+            const sections = document.querySelectorAll('.section');
+            const infoTab = document.getElementById('info-tab');
+            const shippingTab = document.getElementById('shipping-tab');
+            const paymentTab = document.getElementById('payment-tab');
+
+            infoTab.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleSection('info-section');
+            });
+
+            shippingTab.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleSection('shipping-section');
+            });
+
+            paymentTab.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleSection('payment-section');
+            });
+
+            /*document.getElementById('place-order-button').addEventListener('click', function() {
+                const userId = localStorage.getItem('username'); // Assuming the user ID is stored as 'username'
+                const totalAmount = parseFloat(document.getElementById('total').textContent.replace('$', ''));
+
+                // Send order details to the server
+                fetch('place_order.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `userId=${userId}&amount=${totalAmount}&productIds=${JSON.stringify(productIds)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Order placed successfully!');
+                        // Redirect to a confirmation page or reset the cart, if needed
+                        //window.location.href = 'Product_Detail.html'; // Change to your desired page
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });*/
+
+            function toggleSection(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(sectionId).classList.add('active');
+            }
+
+            document.getElementById('continue-button').addEventListener('click', function() {
+                // Navigate to payment section
+                toggleSection('payment-section');
+            });
+
+            document.getElementById('return-button').addEventListener('click', function() {
+                window.location.href = 'cart.html'; // Replace with your actual cart page URL
+            });
+
+            function fetchCartItems(userId) {
+                fetch(`fetch_cart.php?userId=${userId}`) // Adjust this URL according to your API
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok.");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.error) {
+                            console.error("Error fetching cart items:", data.error);
+                        } else {
+                            displayCartItems(data.items);
+                        }
+                    })
+                    .catch(error => console.error("There was a problem with the fetch operation:", error));
+            }
+
+            function displayCartItems(products) {
+                const productListContainer = document.getElementById("product-list");
+                let subtotal = 0;
+
+                products.forEach(product => {
+                    const productItem = document.createElement("div");
+                    productItem.className = "product-item";
+
+                    // Store product ID
+                    productIds.push(product.id); // Assuming product has an 'id' property
+
+                    // Product image
+                    const productImages = document.createElement("div");
+                    productImages.className = "product-images";
+                    productImages.innerHTML = `<img src="${product.image}" alt="${product.name}">`;
+                    productItem.appendChild(productImages);
+
+                    // Product name
+                    const productName = document.createElement("div");
+                    productName.className = "product-name";
+                    productName.textContent = product.name;
+                    productItem.appendChild(productName);
+
+                    // Product price (convert to number if necessary)
+                    const priceValue = Number(product.price); // Convert price to a number if it's a string
+                    const price = document.createElement("div");
+                    price.className = "price";
+                    price.textContent = `$${priceValue.toFixed(2)}`;
+                    productItem.appendChild(price);
+
+                    // Add to subtotal
+                    subtotal += priceValue;
+
+                    // Append to the list
+                    productListContainer.appendChild(productItem);
+                });
+
+                // Update summary section
+                document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+                const shipping = 5.00; // Flat shipping rate
+                document.getElementById("shipping").textContent = `$${shipping.toFixed(2)}`;
+                document.getElementById("total").textContent = `$${(subtotal + shipping).toFixed(2)}`;
+            }
+
+            function updateSubtotal() {
+                const productListContainer = document.getElementById('product-list');
+                let subtotal = 0;
+
+                // Select all checkboxes
+                const checkboxes = productListContainer.querySelectorAll('input[type="checkbox"]');
+
+                checkboxes.forEach((checkbox, index) => {
+                    if (checkbox.checked) {
+                        const priceElement = productListContainer.children[index].querySelector('.price');
+                        const priceValue = parseFloat(priceElement.textContent.replace('$', ''));
+                        subtotal += priceValue;
+                    }
+                });
+
+                // Update the subtotal and total displays
+                document.getElementById('subtotal').innerText = `$${subtotal.toFixed(2)}`;
+                document.getElementById('total').innerText = `$${(subtotal + 5).toFixed(2)}`; // Adding $5 shipping
+            }
+
+            // Placeholder functions for changing shipping details
+            function changeContact() { /* Logic to change contact */ }
+            function changeShipping() { /* Logic to change shipping address */ }
+            function changeMethod() { /* Logic to change shipping method */ }
+        });
+    </script>
+</body>
+</html>

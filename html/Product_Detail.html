@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <style>
+
+
+
+/* Navigation Bar */
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    padding: 15px 20px !important;
+    background-color: #ffffff !important;
+    color: #1d1515 !important;
+    position: fixed !important;
+    top: 0!important; /* Ensures navbar is flush to the top */
+    width: 100%;
+    z-index: 20 !important; /* Increase z-index to ensure it stays above dropdowns */
+    border-bottom: 1px solid #ddd;
+}
+.navbar .nav-links {
+    display: flex !important;
+    gap: 40px !important; /* Increased gap for better spacing between links */
+    margin: 0 auto !important; /* Center the nav links */
+}
+
+.navbar .nav-links button {
+    color: #1d1515 ;
+    background: none;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    transition: border-bottom 0.3s ease; /* Added transition for smoother effect */
+}
+
+.navbar .nav-links button:hover {
+    border-bottom: 2px solid #333;
+}
+
+.navbar .nav-icons {
+    display: flex;
+    gap: 10px;
+    margin-right:50px;
+}
+
+.navbar .nav-icons i {
+    color: #1d1515;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            top: 30px;
+            height: 100%;
+            padding: 20px;
+            position: relative;
+        }
+
+        .product-list-container
+        {
+            position:relative;
+        }
+        .product-section {
+            display: flex;
+            gap: 50px;
+            overflow: hidden;
+            flex: 1;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        .product-section:hover {
+            border-color: #e63946;
+            cursor: pointer;
+        }
+        .product-section.selected {
+            border-color: #1d3557;
+        }
+        .product-images {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-images img {
+            max-width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .thumbnail {
+            margin-top: 10px;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .product-info {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .product-info h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .product-info .price {
+            color: #e63946;
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .size-options, .color-options {
+            margin: 15px 0;
+        }
+        .size-options label, .color-options label {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .size-guide {
+            margin: 20px 0;
+        }
+        .reviews {
+            margin-top: 30px;
+        }
+        .reviews h3 {
+            margin-bottom: 10px;
+        }
+        .review-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #e63946;
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+            transition: opacity 0.3s ease; /* Fade-in effect */
+        }
+
+        .popup-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 10% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px; /* Could be more or less, depending on screen size */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+            opacity: 0; /* Start invisible */
+            transform: translateY(-20px); /* Slightly up to start */
+            transition: opacity 0.3s ease, transform 0.3s ease; /* Transition for fade and move */
+        }
+
+        .popup-content.show {
+            opacity: 1; /* Make visible */
+            transform: translateY(0); /* Move back to original position */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #333;
+            text-decoration: none;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition for input */
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #1d3557; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(29, 53, 87, 0.5); /* Add shadow on focus */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for buttons */
+        }
+
+        button:hover {
+            background-color: #1d3557; /* Darker background on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        button:active {
+            transform: translateY(0); /* Return to original position */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow on click */
+        }
+
+        button#forgot-button {
+            background-color: transparent; /* Make it transparent */
+            color: #1d3557; /* Change text color */
+            text-decoration: underline; /* Underline text */
+        }
+
+        button#switch-to-signup {
+            background-color: transparent; /* Make it transparent */
+            color: #1d3557; /* Change text color */
+            text-decoration: underline; /* Underline text */
+            margin-top: 15px; /* Separate from other buttons */
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <button onclick="window.location.href='home2.html'">Home</button>
+            <button onclick="window.location.href='product_Detail.html?category=Dresses'"; >Shop</button>
+             <button onclick="window.location.href='about_us.html'";>About Us</button>
+            <button onclick="window.location.href='contact_us.html'"; >Contact Us</button>
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative; display: inline-block;">
+        <i class="fas fa-shopping-cart" onclick="window.location.href='shopping_cart.html?type=cart'"; ></i>
+        <span id="cart-notify" class="notification-badge">0</span>
+    </div>
+
+    <!-- Wishlist Icon with Notification Badge -->
+    <div style="position: relative; display: inline-block;">
+        <i class="fas fa-heart" onclick="window.location.href='shopping_cart.html?type=wishlist'"></i>
+        <span id="wishlist-notify" class="notification-badge">0</span>
+    </div>
+            <i class="fas fa-search" onclick="loadContent('search.html'); return false;"></i>
+            <i class="fas fa-sync-alt" onclick="refreshPage(); return false;"></i>
+        </div>
+    </div>
+    <!-- Authentication Popup --><!-- Top Navigation Bar with Filters -->
+<header id="navbar" class="top-navfilter">
+    <h2>Shop Filters</h2>
+<div class="filter-section">
+    <div class="filter-item">
+            <button onclick="toggleMainDropdown()">Category</button>
+            <div id="dropdown-contentforcategory" class="dropdown-contentforcategory">
+        <!-- Main categories with toggle icon and subcategories -->
+        <div class="category-item" onclick="toggleSubcategory('kidSubcategory', this)">
+            Kid <span class="toggle-icon">+</span>
+            <div id="kidSubcategory" class="subcategory-list"> <!-- Added subcategory-list class -->
+                <div class="subcategory-item" onclick="addSelectedValue('Clothing')">Clothing</div>
+                <div class="subcategory-item" onclick="addSelectedValue('Toys')">Toys</div>
+                <div class="subcategory-item" onclick="addSelectedValue('Books')">Books</div>
+            </div>
+        </div>
+        <div class="category-item" onclick="toggleSubcategory('menSubcategory', this)">
+            Men <span class="toggle-icon">+</span>
+            <div id="menSubcategory" class="subcategory-list">
+                <div class="subcategory-item"onclick="addSelectedValue('Shoes')">Shoes</div>
+                <div class="subcategory-item"onclick="addSelectedValue('watches')">Watches</div>
+                <div class="subcategory-item"onclick="addSelectedValue('Apparel')">Apparel</div>
+            </div>
+        </div>
+        <div class="category-item" onclick="toggleSubcategory('womenSubcategory', this)">
+            Women <span class="toggle-icon">+</span>
+            <div id="womenSubcategory" class="subcategory-list">
+                <div class="subcategory-item" onclick="addSelectedValue('Jewelry')">Jewelry</div>
+                <div class="subcategory-item" onclick="addSelectedValue('Handbags')">Handbags</div>
+                <div class="subcategory-item" onclick="addSelectedValue('Clothing')">Clothing</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="filter-item">
+    <button onclick="toggleDropdown('colorDropdown', this)">Color</button>
+    <div id="colorDropdown" class="dropdown-content">
+        <label><input type="checkbox" class="color-option" name="color" value="Red" onchange="updateSelectedValues()"> Red</label>
+        <label><input type="checkbox" class="color-option" name="color" value="Blue" onchange="updateSelectedValues()"> Blue</label>
+        <label><input type="checkbox" class="color-option" name="color" value="Green" onchange="updateSelectedValues()"> Green</label>
+        <label><input type="checkbox" class="color-option" name="color" value="Black" onchange="updateSelectedValues()"> Black</label>
+        <label><input type="checkbox" class="color-option" name="color" value="White" onchange="updateSelectedValues()"> White</label>
+        <label><input type="checkbox" class="color-option" name="color" value="Yellow" onchange="updateSelectedValues()"> Yellow</label>
+    </div>
+</div>
+<div class="filter-item">
+    <button onclick="toggleDropdown('sizeDropdown', this)">Size</button>
+    <div id="sizeDropdown" class="dropdown-content">
+        <label><input type="checkbox" class="size-option" name="size" value="Small" onchange="updateSelectedValues()"> Small</label>
+        <label><input type="checkbox" class="size-option" name="size" value="Medium" onchange="updateSelectedValues()"> Medium</label>
+        <label><input type="checkbox" class="size-option" name="size" value="Large" onchange="updateSelectedValues()"> Large</label>
+    </div>
+</div>
+<div class="filter-item">
+    <button onclick="toggleDropdown('priceDropdown', this)">Price</button>
+    <div id="priceDropdown" class="dropdown-content">
+        <input type="range" id="priceRange" min="0" max="1000" step="1" oninput="updatePriceValue(this.value)">
+        <span>Price: $<span id="priceValue">0</span></span>
+    </div>
+</div>
+<button class="clear-selection" id="clearBtn"  onclick="clearSelections()">Clear Selection</button>
+</div>
+</header>
+<div id="setselectsectionandclearsection">
+<!-- Selected Values Display -->
+<div class="selected-values" id="selectedValues" style="display: none;">
+<!-- Selected values will appear here -->
+</div>
+
+</div>
+
+<!-- Products Section -->
+<section class="product-section">
+
+<div id="product-grid" class="product-grid">
+<!-- Dynamically loaded products will appear here -->
+</div>
+</section>
+
+
+    
+      <div class="container" id="container">
+        <!-- Product details and sections go here -->
+        <div id="product-grid2" class="product-grid"></div>
+    </div>
+
+    <!-- Login/Signup Popup -->
+   <!-- Update the Login/Signup Popup -->
+<div id="auth-popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 id="popup-title">Log In</h2>
+        <form id="auth-form" onsubmit="handleAuth(event)">
+            <!-- Common fields for both Login and Signup -->
+            <label for="auth-username">Username:</label>
+            <input type="text" id="auth-username" name="username" required>
+	<label for="auth-password">Password:</label>
+                <input type="password" id="auth-login-password" name="login-password" required>
+
+            <!-- Additional fields for signup -->
+            <div id="signup-fields" style="display: none;">
+                <label for="auth-name">Name:</label>
+                <input type="text" id="auth-name" name="name" required>
+
+                <label for="auth-email">Email:</label>
+                <input type="email" id="auth-email" name="email" required>
+
+                <label for="auth-signup-password">Password:</label>
+    <input type="password" id="auth-signup-password" name="signup-password">
+            </div>
+
+            <button type="submit" id="auth-button">Log In</button>
+        </form>
+        <button id="forgot-button" onclick="showForgotPassword()">Forgot Password?</button>
+        <button id="switch-to-signup" onclick="switchToSignup()">Don't have an account? Sign Up</button>
+    </div>
+</div>
+<div class="filter-sidebar">
+  <h2>Filters</h2>
+  
+
+
+
+<script src="product.js"></script>
+    <script>
+console.log("entered------------------------");
+        let isUserSignedIn = false; // Replace this with actual authentication logic
+        let isInSignupMode = false; // Track if we are in signup mode
+	let selectedProductId = null; // To store the currently selected product ID
+    
+
+function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Get the category from the URL
+    const category = getQueryParam('category');
+
+    // Now you can use the category variable to fetch products based on this category
+    console.log('Selected Category:', category); // For debugging purposes
+    console.log(localStorage.getItem('isUserSignedIn'));
+	let categoryvalue=0;
+if(category=="Dresses")
+{
+categoryvalue=1;
+console.log('Selected Category:', categoryvalue); // For debugging purposes
+}
+else if (category=="Tops")
+{
+categoryvalue=2;
+console.log('Selected Category:', categoryvalue); // For debugging purposes
+}
+async function fetchProductDetails() {
+
+    
+        try {
+            const response =  await fetch('fetch_products.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ category: 0 }),
+        });
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+       // console.log(data.products);
+
+            if (data.success) {
+                const processedResponse = processProductData(data);
+                console.log(processedResponse);
+                renderProductGrid(processedResponse.products);
+            } else {
+                productListContainer.innerHTML = '<p>Error fetching products. Please try again later.</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching product details:', error.message);
+            productListContainer.innerHTML = '<p>Error fetching products. Please try again later.</p>';
+        }
+    }
+
+
+      function changeImage(imageSrc, id) {
+    const mainImage = document.getElementById(`main-image-${id}`);
+    mainImage.src = imageSrc;
+}
+
+        function selectProduct(section, id) {
+             const allSections = document.querySelectorAll('.product-section');
+    allSections.forEach(s => s.classList.remove('selected')); // Deselect all
+    section.classList.add('selected'); // Select current
+
+    selectedProductId = id; // Store the selected product ID
+    console.log('Selected Product ID:', selectedProductId); // Debugging line
+        }
+
+function processProductData(data) {
+    if (!data.success) {
+      console.error('Failed to fetch products');
+      return;
+    }
+  
+    const processedProducts = {};
+  
+    // Process each product
+    data.products.forEach(product => {
+      // If the product already exists, accumulate the rating and quantity
+      if (processedProducts[product.product_id]) {
+        processedProducts[product.product_id].ratings.push(product.rating);
+        processedProducts[product.product_id].quantity += product.quantity;
+      } else {
+        // Otherwise, initialize a new product entry
+        processedProducts[product.product_id] = {
+          ...product,
+          ratings: [product.rating], // Start with the first rating
+        };
+      }
+    });
+  
+    // Now calculate the average rating for each product
+    Object.keys(processedProducts).forEach(productId => {
+      const product = processedProducts[productId];
+      const totalRatings = product.ratings.reduce((sum, rating) => sum + rating, 0);
+      const avgRating = totalRatings / product.ratings.length;
+  
+      // Update product with the calculated average rating
+      product.average_rating = avgRating.toFixed(2); // Fix to 2 decimal places
+  
+      // Remove ratings array after processing
+      delete product.ratings;
+    });
+  
+    // Return the processed products in the exact structure like PHP
+    return {
+      success: true,
+      products: Object.values(processedProducts)
+    };
+  }
+
+      
+        function closePopup() {
+            const popup = document.getElementById('auth-popup');
+            const popupContent = document.querySelector('.popup-content');
+
+            popupContent.classList.remove('show'); // Remove show class for fade-out effect
+            setTimeout(() => { // Delay hiding the popup to allow the fade-out effect
+                popup.style.display = 'none';
+                resetAuthForm(); // Reset the form when closing
+            }, 300); // Match the timeout with the CSS transition duration
+        }
+
+
+
+      function switchToSignup() {
+    isInSignupMode = true;
+    document.getElementById('popup-title').innerText = 'Sign Up';
+    document.getElementById('auth-button').innerText = 'Sign Up';
+    document.getElementById('switch-to-signup').style.display = 'none';
+    document.getElementById('forgot-button').style.display = 'none';
+
+    // Show signup fields and make signup-specific fields required
+    document.getElementById('signup-fields').style.display = 'block';
+    document.getElementById('auth-signup-password').required = true;
+    document.getElementById('auth-login-password').required = false;
+}
+
+
+function resetAuthForm() {
+    isInSignupMode = false;
+    document.getElementById('popup-title').innerText = 'Log In';
+    document.getElementById('auth-button').innerText = 'Log In';
+    document.getElementById('switch-to-signup').style.display = 'block';
+    document.getElementById('forgot-button').style.display = 'block';
+
+    // Hide signup fields and set login fields as required
+    document.getElementById('signup-fields').style.display = 'none';
+    document.getElementById('auth-signup-password').required = false;
+document.getElementById('auth-name').required = false;
+    document.getElementById('auth-email').required = false;
+    document.getElementById('auth-login-password').required = true;
+}
+
+
+        function showForgotPassword() {
+            alert('Redirecting to password reset...');
+            // Implement actual password reset logic here
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProductDetails);
+
+async function handleAuth(event) {
+    event.preventDefault(); // Prevent the default form submission
+    console.log("handleAuth function called");
+
+    const username = document.getElementById('auth-username').value;
+    const password = document.getElementById('auth-login-password').value;
+
+    let requestBody;
+
+    if (isInSignupMode) {
+        const name = document.getElementById('auth-name').value;
+        const email = document.getElementById('auth-email').value;
+        const signupPassword = document.getElementById('auth-signup-password').value;
+        requestBody = { username, password: signupPassword, name, email };
+    } else {
+        requestBody = { username, password, selectedProductId };
+    }
+
+    const response = await fetch(isInSignupMode ? 'Signup.php' : 'login.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        isUserSignedIn = !isInSignupMode; // User is signed in after login
+
+        // Store login status and user data in localStorage
+        localStorage.setItem('isUserSignedIn', true);
+        localStorage.setItem('username', result.user_id); // Adjust based on the response data
+        localStorage.setItem('userToken', result.token); // Save a token if available
+        closePopup(); // Close the popup
+        alert(isInSignupMode ? 'Signup successful! Please log in.' : 'Login successful!' + localStorage.getItem('username'));
+    } else {
+        showError(result.message); // Show error message
+    }
+}
+function openAuthPopup() {
+    const popup = document.getElementById('auth-popup');
+    const popupContent = document.querySelector('.popup-content');
+
+    popup.style.display = 'block'; // Show popup
+    popupContent.classList.add('show'); // Add the show class for fade-in effect
+    resetAuthForm(); // Reset to login form initially
+}
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.innerText = message;
+    document.querySelector('.popup-content').prepend(errorDiv); // Add error message at the top
+
+    setTimeout(() => {
+        errorDiv.remove(); // Remove error message after 5 seconds
+    }, 5000);
+}
+
+    </script>
+</body>
+</html>

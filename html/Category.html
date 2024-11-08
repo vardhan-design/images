@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Page</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        /* Sidebar Filters */
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #ffffff;
+            margin-right: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .sidebar h3 {
+            margin-bottom: 15px;
+        }
+        .filter-group {
+            margin-bottom: 20px;
+        }
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .filter-group input[type="checkbox"], .filter-group input[type="radio"] {
+            margin-right: 8px;
+        }
+        .filter-group input[type="range"] {
+            width: 100%;
+            margin-top: 5px;
+        }
+        /* Sorting Options */
+        .sort-options {
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .sort-options select {
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        /* Product Listings */
+        .product-list {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-card h4 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .product-card .price {
+            color: #e63946;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .product-card .discount {
+            font-size: 14px;
+            color: #888;
+            text-decoration: line-through;
+        }
+        .product-card button {
+            margin-top: 10px;
+            padding: 8px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container -->
+    <div class="container">
+
+        <!-- Sidebar Filters -->
+        <aside class="sidebar">
+            <h3>Filters</h3>
+
+            <!-- Size Filter -->
+            <div class="filter-group">
+                <label>Size</label>
+                <label><input type="checkbox" value="small" /> Small</label>
+                <label><input type="checkbox" value="medium" /> Medium</label>
+                <label><input type="checkbox" value="large" /> Large</label>
+            </div>
+
+            <!-- Color Filter -->
+            <div class="filter-group">
+                <label>Color</label>
+                <label><input type="checkbox" value="red" /> Red</label>
+                <label><input type="checkbox" value="blue" /> Blue</label>
+                <label><input type="checkbox" value="black" /> Black</label>
+                <label><input type="checkbox" value="white" /> White</label>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="filter-group">
+                <label for="price-range">Price Range</label>
+                <input type="range" id="price-range" min="0" max="500" value="250" />
+                <p>Up to $<span id="price-value">250</span></p>
+            </div>
+
+            <!-- Material Filter -->
+            <div class="filter-group">
+                <label>Material</label>
+                <label><input type="checkbox" value="cotton" /> Cotton</label>
+                <label><input type="checkbox" value="polyester" /> Polyester</label>
+                <label><input type="checkbox" value="wool" /> Wool</label>
+            </div>
+
+            <!-- Brand Filter -->
+            <div class="filter-group">
+                <label>Brand</label>
+                <label><input type="checkbox" value="brand-a" /> Brand A</label>
+                <label><input type="checkbox" value="brand-b" /> Brand B</label>
+                <label><input type="checkbox" value="brand-c" /> Brand C</label>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            
+            <!-- Sorting Options -->
+            <div class="sort-options">
+                <label for="sort-by">Sort By:</label>
+                <select id="sort-by">
+                    <option value="popularity">Popularity</option>
+                    <option value="price-low-to-high">Price: Low to High</option>
+                    <option value="price-high-to-low">Price: High to Low</option>
+                    <option value="new-arrivals">New Arrivals</option>
+                </select>
+            </div>
+
+            <!-- Product Listings -->
+            <section class="product-list">
+                <!-- Product Card -->
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>Red Dress</h4>
+                    <p class="price">$49.99 <span class="discount">$59.99</span></p>
+                    <button>Quick View</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>Blue Denim Jacket</h4>
+                    <p class="price">$79.99 <span class="discount">$89.99</span></p>
+                    <button>Quick View</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Product Image">
+                    <h4>White Top</h4>
+                    <p class="price">$29.99 <span class="discount">$34.99</span></p>
+                    <button>Quick View</button>
+                </div>
+                <!-- Additional product cards can be added similarly -->
+            </section>
+        </div>
+    </div>
+
+    <!-- JavaScript for Dynamic Price Display -->
+    <script>
+        const priceRange = document.getElementById("price-range");
+        const priceValue = document.getElementById("price-value");
+
+        priceRange.addEventListener("input", function() {
+            priceValue.textContent = priceRange.value;
+        });
+    </script>
+
+</body>
+</html>

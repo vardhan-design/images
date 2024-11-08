@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results Page</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Search Filters */
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+        }
+        .filter-group label {
+            margin-bottom: 5px;
+        }
+        .filter-group select, .filter-group input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        /* Product Listings */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .product-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+        .product-item:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .product-name {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .product-price {
+            color: #e63946;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .add-to-cart {
+            padding: 10px 20px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .add-to-cart:hover {
+            background-color: #d62839;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Search Results</h1>
+
+        <!-- Search Filters -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="category">Category</label>
+                <select id="category">
+                    <option value="">All Categories</option>
+                    <option value="dresses">Dresses</option>
+                    <option value="tops">Tops</option>
+                    <option value="bottoms">Bottoms</option>
+                    <option value="accessories">Accessories</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price-range">Price Range</label>
+                <input type="text" id="price-range" placeholder="e.g., 20-100">
+            </div>
+            <div class="filter-group">
+                <label for="sort">Sort By</label>
+                <select id="sort">
+                    <option value="relevance">Relevance</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="newest">Newest Arrivals</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Product Listings -->
+        <div class="product-list">
+            <div class="product-item">
+                <img src="https://via.placeholder.com/200" alt="Product 1" class="product-image">
+                <div class="product-name">Stylish Summer Dress</div>
+                <div class="product-price">$49.99</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="https://via.placeholder.com/200" alt="Product 2" class="product-image">
+                <div class="product-name">Casual Top</div>
+                <div class="product-price">$29.99</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="https://via.placeholder.com/200" alt="Product 3" class="product-image">
+                <div class="product-name">Elegant Floral Skirt</div>
+                <div class="product-price">$39.99</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-item">
+                <img src="https://via.placeholder.com/200" alt="Product 4" class="product-image">
+                <div class="product-name">Classic Jeans</div>
+                <div class="product-price">$59.99</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
+    </div>
+
+</body>
+</html>

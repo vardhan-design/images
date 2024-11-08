@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="common.css">
+</head>
+<body>
+
+    <!-- Admin Navigation Bar -->
+    <div class="admin-navbar">
+        <button onclick="window.location.href='admin_dashboard.html'">Dashboard</button>
+        <button onclick="window.location.href='manage_products.html'">Manage Products</button>
+        <button onclick="window.location.href='manage_users.html'">Manage Users</button>
+        <button onclick="window.location.href='view_orders.html'">View Orders</button>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <h1>Manage Users</h1>
+
+    <div id="user-list">
+        <!-- User list will be displayed here -->
+    </div>
+
+    <!-- Edit Product Form -->
+<div id="edit-product-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Edit Product</h2>
+        <form id="edit-product-form" onsubmit="updateProduct(event)">
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" required>
+
+            <label for="category">Category:</label>
+            <select id="category" required>
+                <option value="">Select a category</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Home">Home</option>
+                <!-- Add more categories as needed -->
+            </select>
+
+            <label for="price">Price:</label>
+            <input type="number" id="price" step="0.01" required>
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" required>
+
+            <label for="status">Status:</label>
+            <select id="status" required>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+            
+            <input type="hidden" id="product-id">
+            <button type="submit">Update Product</button>
+        </form>
+    </div>
+</div>
+    <script src="manage_users.js"></script> <!-- JavaScript for managing users -->
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Page</title>
+    <style>
+      .top-navfilter {
+    display: flex !important;
+    align-items: center!important;
+    padding: 10px!important;
+    background-color: #fff!important;
+    border-bottom: 1px solid #ccc!important;
+    position: relative!important;
+    z-index: 10!important;
+    top:100px!important;
+}
+
+.top-navfilter h2 {
+    margin: 0;
+    font-size: 18px;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.filter-section {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-item {
+    position: relative;
+}
+
+.filter-item button {
+    background: #ffffff!important;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-item button:hover {
+    color: red!important;
+}
+
+.filter-item button::after {
+    content: '▼';
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+/* Change symbol to "▲" when active */
+.filter-item button.active::after {
+    content: '▲';
+}
+
+.dropdown-content {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 10px;
+    width: 100vw;
+    z-index: 1;
+    display: none;
+}
+
+
+.dropdown-contentforcategory {
+    display: none;
+    flex-direction: column;
+    padding: 10px;
+    
+    position: absolute;
+    top: 50px;
+    left: -100px;
+    z-index: 10;
+    width: 100px;
+}
+
+
+
+/* Show dropdown when active */
+.dropdown-contentforcategory.show-up {
+    display: flex;
+}
+.dropdown-content.show-up {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+}
+
+.dropdown-content label {
+    flex: 1 1 150px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.dropdown-content label:hover {
+    color: red;
+}
+
+/* Round checkbox styles */
+.dropdown-content input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #000; /* Border for the round checkbox */
+    border-radius: 50%; /* Make it round */
+    background-color: white;
+    margin-right: 8px;
+    cursor: pointer;
+    position: relative; /* Positioning for checked effect */
+}
+
+.dropdown-content input[type="checkbox"]:checked {
+    background-color: #000; /* Background color when checked */
+}
+
+.dropdown-content input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: white; /* Inner dot color */
+    border-radius: 50%; /* Make inner dot round */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.product-section {
+    padding: 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+#priceRange {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Update selected-values to align to the right */
+/* Selected values display */
+.selected-values {
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    position: relative; /* Change this to relative */
+}
+
+.selected-value {
+    background-color: #e1e1e1;
+    border-radius: 15px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.remove-btn {
+    cursor: pointer;
+    color: red;
+}
+
+.clear-selection {
+    background: transparent;
+    position: relative;
+    border: 2px solid red;
+    color: red;
+    width:30px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    align-self: flex-end; /* Align to the right */
+}        /* Style for main category items */
+.category-item {
+    position: relative;
+    cursor: pointer;
+    font-weight: normal;
+    padding: 10px;
+}
+.subcategory-item:hover {
+    color: red;
+}
+
+
+/* Subcategory list hidden initially */
+.subcategory-list {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    
+    padding-left: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+/* Show subcategories when active */
+.subcategory-list.show {
+    display: flex;
+}
+
+.subcategory-item {
+    cursor: pointer;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for subcategories */
+.subcategory-item:hover {
+    color: red;
+}
+
+/* Style for toggle icon */
+.toggle-icon {
+    font-weight: normal;
+    transition: transform 0.3s;
+}
+
+/* Rotate and make normal font weight when active */
+.toggle-icon.active {
+    font-weight: normal;
+    content: '-';
+}
+
+
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar with Filters -->
+            <header id="navbar" class="top-nav">
+                <h2>Shop Filters</h2>
+            <div class="filter-section">
+                <div class="filter-item">
+                        <button onclick="toggleMainDropdown()">Category</button>
+                        <div id="dropdown-contentforcategory" class="dropdown-contentforcategory">
+                    <!-- Main categories with toggle icon and subcategories -->
+                    <div class="category-item" onclick="toggleSubcategory('kidSubcategory', this)">
+                        Kid <span class="toggle-icon">+</span>
+                        <div id="kidSubcategory" class="subcategory-list"> <!-- Added subcategory-list class -->
+                            <div class="subcategory-item" onclick="addSelectedValue('Clothing')">Clothing</div>
+                            <div class="subcategory-item" onclick="addSelectedValue('Toys')">Toys</div>
+                            <div class="subcategory-item" onclick="addSelectedValue('Books')">Books</div>
+                        </div>
+                    </div>
+                    <div class="category-item" onclick="toggleSubcategory('menSubcategory', this)">
+                        Men <span class="toggle-icon">+</span>
+                        <div id="menSubcategory" class="subcategory-list">
+                            <div class="subcategory-item"onclick="addSelectedValue('Shoes')">Shoes</div>
+                            <div class="subcategory-item"onclick="addSelectedValue('watches')">Watches</div>
+                            <div class="subcategory-item"onclick="addSelectedValue('Apparel')">Apparel</div>
+                        </div>
+                    </div>
+                    <div class="category-item" onclick="toggleSubcategory('womenSubcategory', this)">
+                        Women <span class="toggle-icon">+</span>
+                        <div id="womenSubcategory" class="subcategory-list">
+                            <div class="subcategory-item" onclick="addSelectedValue('Jewelry')">Jewelry</div>
+                            <div class="subcategory-item" onclick="addSelectedValue('Handbags')">Handbags</div>
+                            <div class="subcategory-item" onclick="addSelectedValue('Clothing')">Clothing</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            
+            
+
+                <div class="filter-item">
+                <button onclick="toggleDropdown('colorDropdown', this)">Color</button>
+                <div id="colorDropdown" class="dropdown-content">
+                    <label><input type="checkbox" class="option" name="color" value="Red" onchange="updateSelectedValues()"> Red</label>
+                    <label><input type="checkbox" class="option" name="color" value="Blue" onchange="updateSelectedValues()"> Blue</label>
+                    <label><input type="checkbox" class="option" name="color" value="Green" onchange="updateSelectedValues()"> Green</label>
+                    <label><input type="checkbox" class="option" name="color" value="Black" onchange="updateSelectedValues()"> Black</label>
+                    <label><input type="checkbox" class="option" name="color" value="White" onchange="updateSelectedValues()"> White</label>
+                    <label><input type="checkbox" class="option" name="color" value="Yellow" onchange="updateSelectedValues()"> Yellow</label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <button onclick="toggleDropdown('sizeDropdown', this)">Size</button>
+                <div id="sizeDropdown" class="dropdown-content">
+                    <label><input type="checkbox" class="option" name="size" value="Small" onchange="updateSelectedValues()"> Small</label>
+                    <label><input type="checkbox" class="option" name="size" value="Medium" onchange="updateSelectedValues()"> Medium</label>
+                    <label><input type="checkbox" class="option" name="size" value="Large" onchange="updateSelectedValues()"> Large</label>
+                </div>
+            </div>
+            <div class="filter-item">
+                <button onclick="toggleDropdown('priceDropdown', this)">Price</button>
+                <div id="priceDropdown" class="dropdown-content">
+                    <input type="range" id="priceRange" min="0" max="1000" step="1" oninput="updatePriceValue(this.value)">
+                    <span>Price: $<span id="priceValue">0</span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Selected Values Display -->
+    <div class="selected-values" id="selectedValues" style="display: none;">
+        <!-- Selected values will appear here -->
+    </div>
+    <button class="clear-selection" id="clearBtn" style="display: none;" onclick="clearSelections()">Clear Selection</button>
+
+    <!-- Products Section -->
+    <section class="product-section">
+        
+        <div id="product-grid" class="product-grid">
+            <!-- Dynamically loaded products will appear here -->
+        </div>
+    </section>
+    <script>
+        let selectedPrice=500;
+        let lastOpenedDropdown = null;
+        let selectedsubcategoryvalue=null;
+        function toggleDropdown(id, button) {
+            console.log(toggleDropdown);
+            const dropdown = document.getElementById(id);
+            const isVisible = dropdown.classList.contains('show-up');
+            
+    
+            // Close any open dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(content => content.classList.remove('show-up'));
+            document.querySelectorAll('.filter-item button').forEach(btn => btn.classList.remove('active'));
+    
+            // If not currently visible, show this one
+            console.log("isvisible value",isVisible);
+            if (!isVisible) {
+                dropdown.classList.add('show-up');
+                button.classList.add('active');
+                console.log("last open dropdown",lastOpenedDropdown);
+                
+               
+                adjustClearButtonPosition(dropdown.offsetHeight);
+            } else {
+                if(lastOpenedDropdown!=null)
+                {
+                    adjustcategoryafteranyoptionselected(dropdown.offsetHeight);
+                }
+                adjustClearButtonPosition(0); // Reset position if dropdown is closed
+            }
+        }
+        function adjustcategoryafteranyoptionselected(height)
+        {
+            console.log("adjustcategoryafteranyoptionselected");
+            console.log(height);
+            const categoryElements=document.getElementById('dropdown-contentforcategory');
+            
+    categoryElements.style.top = `${0 + height + 40}px`;
+        }
+
+    // function triggers when any sub category value is selected
+        function addSelectedValue(value) {
+            console.log("addSelectedValue");
+    const selectedValuesDiv = document.getElementById('selectedValues');
+
+    // Check if the value is already selected to avoid duplicates
+    const existingSelection = Array.from(selectedValuesDiv.children).find(child => child.textContent.trim().startsWith(value));
+    if (existingSelection) return;
+
+    const selectedValueDiv = document.createElement('div');
+    selectedValueDiv.classList.add('selected-value');
+    selectedValueDiv.innerHTML = `${value} <span class="remove-btn" onclick="removeOption(this)">✖</span>`;
+    selectedValuesDiv.appendChild(selectedValueDiv);
+
+    // Show the selected values div if it's not already visible
+    selectedValuesDiv.style.display = 'flex';
+    // Show clear button if there are selected values
+    const clearBtn = document.getElementById('clearBtn');
+    clearBtn.style.display = 'flex';
+}
+//Updating the price value
+        function updatePriceValue(value) {
+            console.log("updatePriceValue");
+            console.log()
+            document.getElementById('priceValue').innerText = value;
+            selectedPrice = value; // Update the selected price variable
+            console.log(selectedPrice);
+            updateSelectedValues(); // Call to update selected values display
+        }
+// setting the possition of clearbutton
+        function adjustClearButtonPosition(dropdownHeight) {
+            console.log("adjustClearButtonPosition");
+            const clearBtn = document.getElementById('clearBtn');
+            const selectedValues = document.getElementById('selectedValues');
+            selectedValues.style.top = `${0 + dropdownHeight}px`; // Position below the nav
+            const selectedValuesDiv = document.getElementById('selectedValues');
+
+            clearBtn.style.top = `${selectedValuesDiv.getBoundingClientRect().bottom + window.scrollY + 10}px`; // Position below the selected values
+        }
+//Triggers when main category valus is clicked
+   
+//Triggers when main category valus is clicked
+function toggleMainDropdown() {
+    console.log("toggleMainDropdown");
+            const categoryDropdown = document.getElementById('dropdown-contentforcategory');
+            categoryDropdown.classList.toggle('show-up');
+            lastOpenedDropdown = categoryDropdown; // Update the last opened dropdown
+            adjustSelectedValuesPosition(); // Adjust selected values position based on last opened dropdown
+        }
+        function adjustSelectedValuesPosition() {
+    const selectedValuesDiv = document.getElementById('selectedValues');
+    const navbar = document.getElementById('navbar');
+    
+    
+    if (lastOpenedDropdown!=null) {
+        // Get the position and height of the last opened dropdown
+        console.log("last dropdown not null");
+        const rect = lastOpenedDropdown.getBoundingClientRect();
+        selectedValuesDiv.style.width = `calc(100vw - ${lastOpenedDropdown.getBoundingClientRect().right + window.scrollX}px)`;
+
+        selectedValuesDiv.style.left = `${rect.right + window.scrollY + 10}px`; // Position below the dropdown
+        const clearBtn = document.getElementById('clearBtn');
+        console.log(clearBtn);
+
+        
+    }
+}
+    //TRIGGER TO DISPLAY sub category values
+        function toggleSubcategory(id, categoryItem) {
+            console.log("toggleSubcategory");
+        const subcategoryList = document.getElementById(id);
+        if (!subcategoryList) return; // Safeguard against null if the ID is incorrect
+
+        // Hide all other subcategories
+        document.querySelectorAll('.subcategory-list').forEach(list => {
+            const otherIcon = list.previousElementSibling ? list.previousElementSibling.querySelector('.toggle-icon') : null;
+            if (list !== subcategoryList) {
+                list.classList.remove('show'); // Close other subcategories
+                if (otherIcon) {
+                    otherIcon.textContent = '+'; // Reset icon for closed subcategories
+                    list.previousElementSibling.style.fontWeight = 'bold'; // Reset font for closed subcategories
+                }
+            }
+        });
+
+        // Toggle the clicked subcategory
+        subcategoryList.classList.toggle('show'); // Toggle subcategory visibility
+
+        // Get the toggle icon span for the clicked category
+        const toggleIcon = categoryItem.querySelector('.toggle-icon');
+        
+        // Change icon and font weight for the clicked category
+        if (subcategoryList.classList.contains('show')) {
+            toggleIcon.textContent = '-';
+            categoryItem.style.fontWeight = 'normal';
+        } else {
+            toggleIcon.textContent = '+';
+            categoryItem.style.fontWeight = 'normal';
+        }
+    }
+        // Function to update selected values
+        function updateSelectedValues() {
+            console.log("updateSelectedValues");
+            console.log('entered updatevalue');
+    const selectedValuesDiv = document.getElementById('selectedValues');
+    selectedValuesDiv.innerHTML = ''; // Clear current selections
+    const options = document.querySelectorAll('.option:checked');
+    const clearBtn = document.getElementById('clearBtn');
+
+    options.forEach(option => {
+        const selectedValueDiv = document.createElement('div');
+        selectedValueDiv.classList.add('selected-value');
+        selectedValueDiv.innerHTML = `${option.value} <span class="remove-btn" onclick="removeOption(this)">✖</span>`;
+        selectedValuesDiv.appendChild(selectedValueDiv);
+    });
+    const priceValueDiv = document.createElement('div');
+            priceValueDiv.classList.add('selected-value');
+            console.log(selectedPrice);
+            priceValueDiv.innerHTML = `Price: ${selectedPrice} <span class="remove-btn" onclick="removePrice()">✖</span>`;
+            console.log(priceValueDiv);
+            selectedValuesDiv.appendChild(priceValueDiv);
+            const existingSelection = Array.from(selectedValuesDiv.children).find(child => child.textContent.trim().startsWith(selectedsubcategoryvalue));
+            if (existingSelection) return;
+        const selectedValueDiv = document.createElement('div');
+        selectedValueDiv.classList.add('selected-value');
+        selectedValueDiv.innerHTML = `${selectedsubcategoryvalue} <span class="remove-btn" onclick="removeOption(this)">✖</span>`;
+        selectedValuesDiv.appendChild(selectedValueDiv);
+        console.log(selectedsubcategoryvalue);
+
+    // Show/hide selected values and clear button based on selected options
+    if (options.length > 0 || selectedPrice > 0||selectedsubcategoryvalue!=null) {
+        selectedValuesDiv.style.display = 'flex'; // Show selected values
+        clearBtn.style.display = 'flex'; // Show clear button
+        console.log("contents now visible");
+    } else {
+        selectedValuesDiv.style.display = 'none'; // Hide selected values
+        clearBtn.style.display = 'none'; // Hide clear button
+    }
+    adjustClearButtonPosition();
+    
+}
+function addSelectedValue(value) {
+    console.log("addSelectedValue");
+    const selectedValuesDiv = document.getElementById('selectedValues');
+    const categoryDropdown = document.getElementById('dropdown-contentforcategory');
+    selectedsubcategoryvalue=value;
+
+       updateSelectedValues();
+}
+function removePrice() {
+    console.log(selectedPrice);
+            selectedPrice = 500; // Reset the price to default
+            document.getElementById('priceRange').value = 0; // Reset the range input
+           
+            updatePriceValue(); // Update display
+            updateSelectedValues(); // Refresh selected values
+        }
+
+        // Function to remove a selected option
+        function removeOption(element) {
+            const valueToRemove = element.parentElement.textContent.trim().slice(0, -1);
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][value="${valueToRemove}"]`);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false; // Uncheck the checkbox
+            });
+            updateSelectedValues(); // Update the displayed selected values
+        }
+    
+        // Function to clear all selections
+        function clearSelections() {
+            const checkboxes = document.querySelectorAll('.option');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false; // Uncheck all checkboxes
+            });
+            updateSelectedValues(); // Update the displayed selected values
+            adjustClearButtonPosition(0); // Reset button position when selections cleared
+            removePrice();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returns & Refunds</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #e63946; /* Brand color */
+        }
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        /* Policy Section */
+        .policy {
+            margin-bottom: 20px;
+        }
+        .policy p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        /* Return Request Form */
+        .return-form {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+        }
+        .return-form input, .return-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 10px 15px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #d62839;
+        }
+        /* Processing Details Section */
+        .processing-details {
+            margin-top: 20px;
+        }
+        .processing-details ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Returns & Refunds</h1>
+
+        <!-- Return Policy Section -->
+        <div class="policy">
+            <h2>Return Policy</h2>
+            <p>We want you to be completely satisfied with your purchase. If for any reason you are not satisfied, you can return your items within 30 days of receiving them.</p>
+            <p>Items must be unworn, unwashed, and in their original packaging with tags attached.</p>
+            <p>Please allow 5-7 business days for your return to be processed once it arrives at our facility.</p>
+        </div>
+
+        <!-- Return Request Form Section -->
+        <div class="return-form">
+            <h2>Return Request Form</h2>
+            <form action="#" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="text" name="order_number" placeholder="Order Number" required>
+                <textarea name="reason" rows="4" placeholder="Reason for Return" required></textarea>
+                <button type="submit" class="submit-button">Submit Return Request</button>
+            </form>
+        </div>
+
+        <!-- Processing Details Section -->
+        <div class="processing-details">
+            <h2>Processing Details</h2>
+            <p>Once we receive your return, please allow the following timeline for processing:</p>
+            <ul>
+                <li><strong>Return Processing:</strong> 5-7 business days.</li>
+                <li><strong>Refund Issued:</strong> 3-5 business days after return is processed.</li>
+                <li><strong>Notification:</strong> You will receive an email notification once your return is processed.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

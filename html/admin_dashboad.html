@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="common.css"> <!-- Common CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+    <button class="toggle-btn" onclick="toggleSidebar()">&#x2794;</button>
+    <div class="admin-container">
+        <!-- Side Navigation Bar -->
+        <nav class="side-nav" id="sidebar">
+            <h2>Admin Panel</h2>
+            <ul>
+                <li><a href="#product-list" onclick="fetchProductDetails()">Product List</a></li>
+                <li><a href="#categories" onclick="categorie()">Categories</a></li>
+                <li><a href="#sales">Sales</a></li>
+                <li><a href="#customers" onclick="fetchAllCustomers()">Customers</a></li>
+                <li><a href="#analytics"onclick=" getorderchart()">Analytics</a></li>
+                <li><a href="#notifications">Notifications</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header class="main-header">
+                <h1 id ="name_of_list">Product List</h1>
+                <div class="header-actions">
+                    <button onclick="filterProducts()">Filter</button>
+                    <button onclick="viewAllProducts()">See All</button>
+                    <button onclick="addProduct()">Add Item</button>
+                </div>
+            </header>
+
+            <section id="product-list" style="display:'none';border: 'none';" >
+                <table class="product-table" id ="ptable">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Reviews</th> <!-- New Reviews Column -->
+                            <th>status</th>
+                            <th>Actions</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody id="product-table-body">
+                        <!-- Dynamic product rows will be added here by JavaScript -->
+                    </tbody>
+                </table><selection>
+
+                    <div id="edit-product-modal" style="display: none;" class="updatetable">
+                        <form id="edit-product-form">
+                            <div class="product-images"></div>
+                            <label for="product-name">Product Name:</label>
+                            <input type="text" id="product-name"  >
+                    
+                            <label for="category">Category:</label>
+                            <input type="text" id="category"  >
+                    
+                            <label for="price">Price:</label>
+                            <input type="number" id="price"  >
+                    
+                            <label for="stock">Stock:</label>
+                            <input type="number" id="stock"  >
+                    
+                            <label for="status">Status:</label>
+                            <input type="text" id="status"  >
+
+                            <input type="file" id="imageInput" multiple accept="image/*">
+        
+                            <div class="image-preview" id="previewContainer"></div>
+                    
+                            <input type="hidden" id="product-id">
+                    
+                            <button  class="updateproductclose"type="button" onclick="closeEditModal()">Close</button>
+                            <button  class="updateproductsavechanges"type="submit" onclick="updateProduct()">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <table id="customer-table" class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Registration Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-table-body">
+                            <!-- Rows of customers will be populated here -->
+                        </tbody>
+                    </table>
+
+        
+                    
+
+                    <form id="productForm" enctype="multipart/form-data"  style="display:none">
+                        <h2 style="text-align:center">Add New Product</h2>
+                        <label for="product-id">Product ID</label>
+                        <input type="text" id="Addproduct-id" name="product_id"  >
+                    
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="Addproduct-name" name="product_name"  >
+                    
+                        <label for="brand">Brand</label>
+                        <input type="text" id="Addbrand" name="brand"  >
+                    
+                        <label for="description">Description</label>
+                        <textarea id="Adddescription" name="description" rows="4"  ></textarea>
+                    
+                        <label for="category">Category</label>
+                        <select id="Addcategory" name="category_name"  >
+                            <option value="">Select Category</option>
+                            <option value="shirts">Shirts</option>
+                            <option value="pants">Pants</option>
+                            <option value="shoes">Shoes</option>
+                            <!-- Add more categories as needed -->
+                        </select>
+                    
+                        <label for="fabric">Fabric Care Instruction</label>
+                        <input type="text" id="Addfabric" name="fabric_care"  >
+                    
+                        <label for="size">Size Options</label>
+                        <select id="Addsize" name="size"   >
+                            <option value="S">Small</option>
+                            <option value="M">Medium</option>
+                            <option value="L">Large</option>
+                            <option value="XL">Extra Large</option>
+                            <!-- Add more sizes if needed -->
+                        </select>
+                    
+                        <label for="color">Color Options</label>
+                        <select id="Addcolor" name="color"onchange="updateColorPreview()"  >
+                            
+                            <option value="Red">Red</option>
+                            <option value="Blue">Blue</option>
+                            <option value="Black">Black</option>
+                            <option value="White">White</option>
+                            <!-- Add more colors if needed -->
+                        </select>
+                        <div id="colorPreview" style="width: 50px; height:10px; border: 1px solid #000; margin-top: 0px;"></div>
+                    
+                        <label for="price">Price</label>
+                        <input type="number" id="Addprice" name="price" step="0.01"  >
+                    
+                        <label for="stock">Quantity in Stock</label>
+                        <input type="number" id="Addstock" name="quantity"  >
+                    
+                        <label for="created-at">ManufacturingDate</label>
+                        <input type="date" id="Addcreated-at" name="created_at"  >
+                    
+                        <label for="imageInput">Product Images (up to 4)</label>
+                        <input type="file" id="CreateimageInput" name="images[]" accept="image/*" multiple  >
+                        <div class="image-preview" id="createpreviewContainer"></div>
+                    
+                        <button onclick="AddingProduct()" class="addproduct">Add Product</button>
+                    </form>
+<!-- Categories Section -->
+<section id="categories" style="display:none;">
+    <h2>Manage Categories, Colors, and Sizes</h2>
+    
+    <!-- Add New Category -->
+    <form id="category-form">
+        <h3>Add New Category</h3>
+        <label for="category-name">Category Name:</label>
+        <input type="text" id="new-category" placeholder="Enter new category">
+        <select id="categoryselect">
+            <option value="">Select Category</option>
+            <option value="shirts">Shirts</option>
+            <option value="pants">Pants</option>
+            <option value="shoes">Shoes</option>
+            <!-- Add more categories as needed -->
+        </select>
+        <button type="button" onclick="addCategory()">Add Category</button>
+    </form>
+
+    <br/>
+
+    <!-- Add New Color -->
+    <form id="color-form">
+        <h3>Add New Color</h3>
+        <label for="new-color">Color Name:</label>
+        <input type="text" id="new-color" placeholder="Enter new color">
+        <select id="color" name="color">
+            <option value="Red">Red</option>
+            <option value="Blue">Blue</option>
+            <option value="Black">Black</option>
+        </select>
+        <button type="button" onclick="addColor()">Add Color</button>
+    </form>
+
+    <br/>
+
+    <!-- Add New Size -->
+    <form id="size-form">
+        <h3>Add New Size</h3>
+        <label for="new-size">Size Name:</label>
+        <input type="text" id="new-size" placeholder="Enter new size">
+        <select id="size" name="size">
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">Extra Large</option>
+        </select>
+        <button type="button" onclick="addSize()">Add Size</button>
+    </form>  
+</section>
+
+                    
+
+                    <canvas id="analyticsChart" width="600" height="400"></canvas>
+                    
+
+
+    <script src="admin_dashboard.js"></script> <!-- Admin-specific JavaScript -->
+</body>
+</html>

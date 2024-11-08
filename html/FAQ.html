@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Search Bar */
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: 40px;
+        }
+        .faq {
+            margin: 15px 0;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .faq h3 {
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .faq p {
+            display: none; /* Hidden by default */
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Frequently Asked Questions (FAQ)</h1>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="faqSearch" placeholder="Search FAQs..." onkeyup="searchFAQs()">
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section" id="faqList">
+            <div class="faq">
+                <h3 onclick="toggleAnswer(this)">What are the shipping options available?</h3>
+                <p>We offer standard shipping, expedited shipping, and free shipping on orders over $50. Delivery times may vary based on your location.</p>
+            </div>
+            <div class="faq">
+                <h3 onclick="toggleAnswer(this)">What is your return policy?</h3>
+                <p>We accept returns within 30 days of receipt. Items must be unworn and in original packaging. Please visit our Returns page for more details.</p>
+            </div>
+            <div class="faq">
+                <h3 onclick="toggleAnswer(this)">How can I track my order?</h3>
+                <p>Once your order is shipped, you will receive a tracking number via email. You can track your order on our website using the tracking number provided.</p>
+            </div>
+            <div class="faq">
+                <h3 onclick="toggleAnswer(this)">What should I do if I receive a defective item?</h3>
+                <p>If you receive a defective item, please contact our customer service within 7 days of receiving your order for a replacement or refund.</p>
+            </div>
+            <div class="faq">
+                <h3 onclick="toggleAnswer(this)">How do I find my size?</h3>
+                <p>We provide a size guide on each product page. Please refer to it for accurate sizing information. If you're between sizes, we recommend sizing up.</p>
+            </div>
+            <!-- Add more FAQs as needed -->
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the answer display
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            answer.style.display = (answer.style.display === "block") ? "none" : "block";
+        }
+
+        // Function to search FAQs
+        function searchFAQs() {
+            const input = document.getElementById('faqSearch').value.toLowerCase();
+            const faqs = document.querySelectorAll('.faq');
+            faqs.forEach(faq => {
+                const question = faq.querySelector('h3').innerText.toLowerCase();
+                if (question.includes(input)) {
+                    faq.style.display = "block";
+                } else {
+                    faq.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

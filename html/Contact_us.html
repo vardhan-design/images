@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+       
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #ffff;
+            color: #1d1515;
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            z-index: 10;
+            border-bottom: 1px solid #ddd;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+            margin: 0 auto; /* Center the nav links */
+        }
+        .navbar .nav-links button {
+            color: #1d1515;
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .navbar .nav-links button:hover {
+            border-bottom: 2px solid #333;
+        }
+        .navbar .nav-icons {
+            display: flex;
+            gap: 15px;
+        }
+        .navbar .nav-icons i {
+            color: #1d1515;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Contact Form */
+        .contact-form {
+            margin-bottom: 40px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #d62839;
+        }
+        /* Customer Service Info */
+        .customer-service {
+            margin-bottom: 40px;
+        }
+        .customer-service p {
+            margin: 5px 0;
+        }
+        /* Store Locations */
+        .store-locations {
+            text-align: center;
+        }
+        .store-locations ul {
+            list-style: none;
+            padding: 0;
+        }
+        .store-locations li {
+            margin: 10px 0;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <button onclick="window.location.href='home2.html'">Home</button>
+            <button onclick="window.location.href='product_Detail.html?category=Dresses'"; >Shop</button>
+             <button onclick="window.location.href='about_us.html'";>About Us</button>
+            <button onclick="window.location.href='contact_us.html'"; >Contact Us</button>
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-shopping-cart" onclick="window.location.href='shopping_cart.html?type=cart'"; ></i>
+            <i class="fas fa-heart" onclick="window.location.href='shopping_cart.html?type=wishlist'"></i>
+            <i class="fas fa-search" onclick="loadContent('search.html'); return false;"></i>
+            <i class="fas fa-sync-alt" onclick="refreshPage(); return false;"></i>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>Contact Us</h1>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h2>Send Us a Message</h2>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+
+        <!-- Customer Service Info -->
+        <div class="customer-service">
+            <h2>Customer Service</h2>
+            <p>If you have any questions or need assistance, please contact our customer service team:</p>
+            <p>Email: support@brandname.com</p>
+            <p>Phone: (123) 456-7890</p>
+        </div>
+
+        <!-- Store Locations -->
+        <div class="store-locations">
+            <h2>Our Store Locations</h2>
+            <ul>
+                <li>123 Fashion St, New York, NY 10001</li>
+                <li>456 Style Ave, Los Angeles, CA 90001</li>
+                <li>789 Chic Blvd, Chicago, IL 60601</li>
+            </ul>
+            <p>Find a store near you!</p>
+            <!-- Optional: Embed a Google Map for store locations -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509583!2d144.9537353153156!3d-37.817209979751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0c1d1b91%3A0x5022f88e9a4c4e1!2s1%20Little%20Lonsdale%20St%2C%20Melbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1645110971623!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+</body>
+</html>
